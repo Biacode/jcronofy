@@ -1,0 +1,13 @@
+/.settings
+*.iml
+.idea/
+target/
+data/
+# Eclipse exclusions
+*.classpath
+*.eml
+*.prefs
+*.project
+*.userlibraries
+#Netbeans exclusions
+nb-configuration.xml
