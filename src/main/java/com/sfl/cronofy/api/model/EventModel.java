@@ -73,6 +73,9 @@ public class EventModel implements Serializable {
 
     @JsonProperty("options")
     private OptionModel options;
+
+    @JsonProperty("actions")
+    private ActionsModel actions;
     //endregion
 
     //region Constructors
@@ -96,7 +99,8 @@ public class EventModel implements Serializable {
                       final Date created,
                       final Date updated,
                       final boolean recurring,
-                      final OptionModel options) {
+                      final OptionModel options,
+                      final ActionsModel actions) {
         this.calendarId = calendarId;
         this.eventUid = eventUid;
         this.summary = summary;
@@ -115,6 +119,7 @@ public class EventModel implements Serializable {
         this.updated = ObjectUtils.clone(updated);
         this.recurring = recurring;
         this.options = options;
+        this.actions = actions;
     }
     //endregion
 
@@ -147,6 +152,7 @@ public class EventModel implements Serializable {
                 .append(updated, that.updated)
                 .append(recurring, that.recurring)
                 .append(options, that.options)
+                .append(actions, that.actions)
                 .isEquals();
     }
 
@@ -171,6 +177,7 @@ public class EventModel implements Serializable {
                 .append(updated)
                 .append(recurring)
                 .append(options)
+                .append(actions)
                 .toHashCode();
     }
 
@@ -195,6 +202,7 @@ public class EventModel implements Serializable {
                 .append("updated", updated)
                 .append("recurring", recurring)
                 .append("options", options)
+                .append("actions", actions)
                 .toString();
     }
     //endregion
@@ -342,6 +350,14 @@ public class EventModel implements Serializable {
 
     public void setOptions(final OptionModel options) {
         this.options = options;
+    }
+
+    public ActionsModel getActions() {
+        return actions;
+    }
+
+    public void setActions(final ActionsModel actions) {
+        this.actions = actions;
     }
     //endregion
 
