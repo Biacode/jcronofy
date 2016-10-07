@@ -15,6 +15,8 @@ public abstract class AbstractCronofyRequest implements Serializable {
     //endregion
 
     //region Constructors
+    public AbstractCronofyRequest() {
+    }
     //endregion
 
     //region Equals, HashCode and ToString

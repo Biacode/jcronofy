@@ -2,6 +2,7 @@ package com.sfl.cronofy.api.client.impl;
 
 import com.sfl.cronofy.api.client.AbstractCronofyClient;
 import com.sfl.cronofy.api.client.CronofyClient;
+import com.sfl.cronofy.api.client.exception.UnknownStatusCodeException;
 import com.sfl.cronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
 import com.sfl.cronofy.api.model.common.AbstractCronofyRequest;
 import com.sfl.cronofy.api.model.common.CronofyResponse;
@@ -18,9 +19,9 @@ import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.ResponseProcessingException;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * User: Arthur Asatryan
@@ -56,7 +57,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     private static final String REVOKE = "revoke";
 
     //region Exception messages
-    private static final String RESPONSE_PROCESSING_EXCEPTION_MSG = "Response processing exception - {} occur while processing request - {}";
+    private static final String UNKNOWN_STATUS_CODE_EXCEPTION_MSG = "Got an unknown status code - {} while processing request - {}";
 
     private static final String NOT_AUTHORIZED_EXCEPTION_MSG = "Not authorized exception - {} occur while processing request - {}";
 
@@ -115,24 +116,31 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         }
     }
 
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity", "squid:S1192"})
     @Override
     public CronofyResponse<RevokeAccessTokenResponse> revokeAccessToken(final RevokeAccessTokenRequest request) {
         assertCronofyRequest(request);
-        try {
-            return getClient()
-                    .target(BASE_PATH)
-                    .path(OAUTH_PATH)
-                    .path(TOKEN_PAH)
-                    .path(REVOKE)
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                            new GenericType<CronofyResponse<RevokeAccessTokenResponse>>() {
-                            }
-                    );
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
+        final CronofyResponse<RevokeAccessTokenResponse> response = new CronofyResponse<>();
+        final Response result = getClient()
+                .target(BASE_PATH)
+                .path(OAUTH_PATH)
+                .path(TOKEN_PAH)
+                .path(REVOKE)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE));
+        final int statusCode = result.getStatus();
+        switch (statusCode) {
+            case 200:
+                response.setResponse(new RevokeAccessTokenResponse());
+                break;
+            case 400:
+                response.setError(ErrorTypeModel.BAD_REQUEST);
+                break;
+            default:
+                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
+                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
         }
+        return response;
     }
 
     @Override
@@ -150,11 +158,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         } catch (final NotAuthorizedException ignore) {
             LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
         } catch (final ClientErrorException ignore) {
-            LOGGER.debug(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -187,11 +192,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         } catch (final ForbiddenException ignore) {
             LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
         } catch (final ClientErrorException ignore) {
-            LOGGER.debug(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -220,82 +222,82 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         } catch (final ForbiddenException ignore) {
             LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
         } catch (final ClientErrorException ignore) {
-            LOGGER.debug(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
 
-    @SuppressWarnings({"squid:MethodCyclomaticComplexity"})
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity", "squid:S1192"})
     @Override
     public CronofyResponse<CreateOrUpdateEventResponse> createOrUpdateEvent(final CreateOrUpdateEventRequest request) {
         assertCronofyRequest(request);
-        try {
-            return getClient()
-                    .target(BASE_PATH)
-                    .path(API_VERSION)
-                    .path(CALENDARS_PATH)
-                    .path(request.getCalendarId())
-                    .path(EVENTS_PATH)
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
-                    .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                            new GenericType<CronofyResponse<CreateOrUpdateEventResponse>>() {
-                            }
-                    );
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ForbiddenException ignore) {
-            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.debug(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
-        } catch (final ResponseProcessingException ignore) {
-            LOGGER.warn(RESPONSE_PROCESSING_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(new CreateOrUpdateEventResponse());
+        final CronofyResponse<CreateOrUpdateEventResponse> response = new CronofyResponse<>();
+        final Response result = getClient()
+                .target(BASE_PATH)
+                .path(API_VERSION)
+                .path(CALENDARS_PATH)
+                .path(request.getCalendarId())
+                .path(EVENTS_PATH)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE)
+                );
+        final int statusCode = result.getStatus();
+        switch (statusCode) {
+            case 202:
+                response.setResponse(new CreateOrUpdateEventResponse());
+                break;
+            case 401:
+                response.setError(ErrorTypeModel.NOT_AUTHORIZED);
+                break;
+            case 403:
+                response.setError(ErrorTypeModel.FORBIDDEN);
+                break;
+            case 422:
+                response.setError(ErrorTypeModel.UNPROCESSABLE);
+                break;
+            default:
+                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
+                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
         }
+        return response;
     }
 
-    @SuppressWarnings({"squid:MethodCyclomaticComplexity"})
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity", "squid:S1192"})
     @Override
     public CronofyResponse<DeleteEventResponse> deleteEvent(final DeleteEventRequest request) {
         assertCronofyRequest(request);
-        try {
-            return getClient()
-                    .target(BASE_PATH)
-                    .path(API_VERSION)
-                    .path(CALENDARS_PATH)
-                    .path(request.getCalendarId())
-                    .path(EVENTS_PATH)
-                    .queryParam("event_id", request.getEventId())
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
-                    .delete(new GenericType<CronofyResponse<DeleteEventResponse>>() {
-                    });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ForbiddenException ignore) {
-            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.debug(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
-        } catch (final ResponseProcessingException ignore) {
-            LOGGER.warn(RESPONSE_PROCESSING_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(new DeleteEventResponse());
+        final CronofyResponse<DeleteEventResponse> response = new CronofyResponse<>();
+        final Response result = getClient()
+                .target(BASE_PATH)
+                .path(API_VERSION)
+                .path(CALENDARS_PATH)
+                .path(request.getCalendarId())
+                .path(EVENTS_PATH)
+                .queryParam("event_id", request.getEventId())
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                .delete();
+        final int statusCode = result.getStatus();
+        switch (statusCode) {
+            case 202:
+                response.setResponse(new DeleteEventResponse());
+                break;
+            case 401:
+                response.setError(ErrorTypeModel.NOT_AUTHORIZED);
+                break;
+            case 403:
+                response.setError(ErrorTypeModel.FORBIDDEN);
+                break;
+            case 422:
+                response.setError(ErrorTypeModel.UNPROCESSABLE);
+                break;
+            default:
+                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
+                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
         }
+        return response;
     }
 
     @Override
@@ -316,7 +318,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
             LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
         } catch (final ClientErrorException ignore) {
-            LOGGER.debug(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -339,23 +341,33 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         }
     }
 
+    @SuppressWarnings({"squid:MethodCyclomaticComplexity", "squid:S1192"})
     @Override
     public CronofyResponse<CloseNotificationChannelResponse> closeNotificationChannel(final CloseNotificationChannelRequest request) {
         assertCronofyRequest(request);
-        try {
-            return getClient()
-                    .target(BASE_PATH)
-                    .path(API_VERSION)
-                    .path(CHANNELS_PATH)
-                    .path(request.getChannelId())
-                    .request(MediaType.APPLICATION_JSON_TYPE)
-                    .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
-                    .delete(new GenericType<CronofyResponse<CloseNotificationChannelResponse>>() {
-                    });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
-            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        final CronofyResponse<CloseNotificationChannelResponse> response = new CronofyResponse<>();
+
+        final Response result = getClient()
+                .target(BASE_PATH)
+                .path(API_VERSION)
+                .path(CHANNELS_PATH)
+                .path(request.getChannelId())
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                .delete();
+        final int statusCode = result.getStatus();
+        switch (statusCode) {
+            case 202:
+                response.setResponse(new CloseNotificationChannelResponse());
+                break;
+            case 401:
+                response.setError(ErrorTypeModel.NOT_AUTHORIZED);
+                break;
+            default:
+                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
+                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
         }
+        return response;
     }
 
     @Override

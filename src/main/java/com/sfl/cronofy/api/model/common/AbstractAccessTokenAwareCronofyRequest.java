@@ -10,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * Date: 10/5/16
  * Time: 2:49 PM
  */
-public class AbstractAccessTokenAwareCronofyRequest extends AbstractCronofyRequest {
+public abstract class AbstractAccessTokenAwareCronofyRequest extends AbstractCronofyRequest {
     private static final long serialVersionUID = 5013510822502829091L;
 
     //region Properties
