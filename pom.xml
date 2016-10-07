@@ -7,13 +7,13 @@
     <name>Cronofy API Client</name>
     <groupId>com.sfl.cronofy</groupId>
     <artifactId>cronofy</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.0-SNAPSHOT</version>
     <description>The cronofy API client</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-        <project.version>0.1.0</project.version>
+        <project.version>0.1.0-SNAPSHOT</project.version>
         <source.jdk>1.8</source.jdk>
         <target.jdk>1.8</target.jdk>
 
