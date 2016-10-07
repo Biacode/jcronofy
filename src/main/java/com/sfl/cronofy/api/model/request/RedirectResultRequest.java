@@ -27,6 +27,11 @@ public class RedirectResultRequest extends AbstractCronofyRequest {
     //region Constructors
     public RedirectResultRequest() {
     }
+
+    public RedirectResultRequest(final String code, final String state) {
+        this.code = code;
+        this.state = state;
+    }
     //endregion
 
     //region Equals, HashCode and ToString

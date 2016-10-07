@@ -1,5 +1,6 @@
 package com.sfl.cronofy.api.model.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sfl.cronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,9 +23,11 @@ public class ReadEventsRequest extends AbstractAccessTokenAwareCronofyRequest {
     private static final long serialVersionUID = 8805784760126104471L;
 
     //region Properties
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "GMT")
     @QueryParam("from")
     private Date from;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "GMT")
     @QueryParam("to")
     private Date to;
 
@@ -37,6 +40,7 @@ public class ReadEventsRequest extends AbstractAccessTokenAwareCronofyRequest {
     @QueryParam("include_moved")
     private Boolean includeMoved;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "GMT")
     @QueryParam("last_modified")
     private Date lastModified;
 

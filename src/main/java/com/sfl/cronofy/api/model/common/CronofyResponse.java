@@ -24,6 +24,7 @@ public class CronofyResponse<T extends AbstractCronofyResponse> implements Seria
     private ErrorTypeModel error;
 
     @JsonUnwrapped
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private T response;
     //endregion
 
