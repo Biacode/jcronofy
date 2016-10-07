@@ -20,11 +20,9 @@
         <javax.ws.rs-api.version>2.0.1</javax.ws.rs-api.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <jackson.version>2.8.3</jackson.version>
-        <commons.io.version>2.5</commons.io.version>
         <slf4j.version>1.7.21</slf4j.version>
 
         <!--Testing frameworks-->
-        <jersey.common.version>2.22.2</jersey.common.version>
         <jersey.client.version>2.23.2</jersey.client.version>
         <easymock.version>3.4</easymock.version>
         <junit.version>4.12</junit.version>
@@ -42,10 +40,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -66,6 +60,7 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -82,9 +77,9 @@
                 <version>${jackson.version}</version>
             </dependency>
             <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -93,11 +88,6 @@
             </dependency>
 
             <!--Testing frameworks-->
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -114,6 +104,7 @@
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-client</artifactId>
                 <version>${jersey.client.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -125,7 +116,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
         </plugins>
-
         <pluginManagement>
             <plugins>
                 <plugin>
