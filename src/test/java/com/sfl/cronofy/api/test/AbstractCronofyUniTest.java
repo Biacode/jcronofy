@@ -19,7 +19,7 @@ public abstract class AbstractCronofyUniTest extends EasyMockSupport {
     //endregion
 
     //region Constructors
-    public AbstractCronofyUniTest() {
+    protected AbstractCronofyUniTest() {
         helper = new CronofyUnitTestHelper();
     }
     //endregion

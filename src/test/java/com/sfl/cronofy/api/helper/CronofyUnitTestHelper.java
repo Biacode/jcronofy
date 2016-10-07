@@ -86,15 +86,15 @@ public final class CronofyUnitTestHelper {
         );
     }
 
-    public EventLocationModel buildEventLocationModel() {
+    private EventLocationModel buildEventLocationModel() {
         return new EventLocationModel(UUID.randomUUID().toString());
     }
 
-    public AttendeesModel buildAttendeesModel() {
+    private AttendeesModel buildAttendeesModel() {
         return new AttendeesModel();
     }
 
-    public OptionModel buildOptionModel() {
+    private OptionModel buildOptionModel() {
         return new OptionModel(false, true);
     }
 
@@ -115,7 +115,7 @@ public final class CronofyUnitTestHelper {
         );
     }
 
-    public NotificationFilterModel buildNotificationFilterModel() {
+    private NotificationFilterModel buildNotificationFilterModel() {
         return new NotificationFilterModel(
                 new ArrayList<>(Arrays.asList(UUID.randomUUID().toString(), UUID.randomUUID().toString())),
                 false
