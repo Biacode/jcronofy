@@ -82,8 +82,13 @@ public final class CronofyUnitTestHelper {
                 new Date(),
                 new Date(),
                 false,
-                buildOptionModel()
+                buildOptionModel(),
+                buildActionsModel()
         );
+    }
+
+    private ActionsModel buildActionsModel() {
+        return new ActionsModel("event_id");
     }
 
     private EventLocationModel buildEventLocationModel() {
