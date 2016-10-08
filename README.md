@@ -1,3 +1,6 @@
+### CI Status
+[![Build Status](https://travis-ci.org/bia-code/jcronofy.svg?branch=master)](https://travis-ci.org/bia-code/jcronofy)
+[![SonarCube](https://getstreaming.files.wordpress.com/2012/10/sonar.png)](https://sonarqube.com/dashboard/index/com.sfl.cronofy:cronofy)
 # jcronofy
 Java implementation of Cronofy API
 # How to use
@@ -6,6 +9,7 @@ Java implementation of Cronofy API
 
 First of all, you need any implementation of ```javax.ws.rs.client.Client```
 For example you can use jersey client
+
 Add the following dependency to your maven pom.xml file
 ```xml
 <dependency>
@@ -31,7 +35,7 @@ In application context XML add the following XML definition
 ```
 
 # If you simply need to test cronofy API.
-Then construct simple jersey client as follows
+Then construct jersey client as follows
 ```java
 package my.application;
 
