@@ -293,6 +293,34 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }
+
+    /**
+     * When unknown status code
+     */
+    @Test
+    public void testRevokeAccessTokenScenario4() {
+        resetAll();
+        // test data
+        final RevokeAccessTokenRequest request = getHelper().getRevokeAccessTokenRequest();
+        final Response expectedResult = Response.status(1024).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path("oauth")).andReturn(webTarget);
+        expect(webTarget.path("token")).andReturn(webTarget);
+        expect(webTarget.path("revoke")).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        try {
+            cronofyClient.revokeAccessToken(request);
+            fail("Exception should be thrown");
+        } catch (final UnknownStatusCodeException ignore) {
+            // Expected
+            assertNotNull(ignore);
+            assertEquals(request, ignore.getRequest());
+        }
+        verifyAll();
+    }
     //endregion
 
     //region listCalendars
@@ -528,6 +556,9 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         verifyAll();
     }
 
+    /**
+     * General case
+     */
     @Test
     public void testFreeBusyScenario2() {
         resetAll();
@@ -590,6 +621,25 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         );
         // expectations
         expect(client.target(BASE_PATH)).andThrow(new ForbiddenException());
+        replayAll();
+        final CronofyResponse<FreeBusyResponse> result = cronofyClient.freeBusy(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When client error exception has been thrown
+     */
+    @Test
+    public void testFreeBusyScenario5() {
+        resetAll();
+        // test data
+        final FreeBusyRequest request = getHelper().getFreeBusyRequest();
+        final CronofyResponse<FreeBusyResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.UNPROCESSABLE
+        );
+        // expectations
+        expect(client.target(BASE_PATH)).andThrow(new ClientErrorException(Response.Status.CONFLICT));
         replayAll();
         final CronofyResponse<FreeBusyResponse> result = cronofyClient.freeBusy(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -729,6 +779,36 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         replayAll();
         final CronofyResponse<CreateOrUpdateEventResponse> result = cronofyClient.createOrUpdateEvent(request);
         getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When unknown status code
+     */
+    @Test
+    public void testCreateOrUpdateEventScenario7() {
+        resetAll();
+        // test data
+        final CreateOrUpdateEventRequest request = getHelper().getCreateOrUpdateEventRequest();
+        final Response expectedResult = Response.status(1024).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CALENDARS_PATH)).andReturn(webTarget);
+        expect(webTarget.path(request.getCalendarId())).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        try {
+            cronofyClient.createOrUpdateEvent(request);
+            fail("Exception should be thrown");
+        } catch (final UnknownStatusCodeException ignore) {
+            // Expecetd
+            assertNotNull(ignore);
+            assertEquals(request, ignore.getRequest());
+        }
         verifyAll();
     }
     //endregion
@@ -971,6 +1051,25 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }
+
+    /**
+     * When client error exception has been thrown
+     */
+    @Test
+    public void testCreateNotificationChannelScenario4() {
+        resetAll();
+        // test data
+        final CreateNotificationChannelRequest request = getHelper().getCreateNotificationChannelRequest();
+        final CronofyResponse<CreateNotificationChannelResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.UNPROCESSABLE
+        );
+        // expectations
+        expect(client.target(BASE_PATH)).andThrow(new ClientErrorException(Response.Status.CONFLICT));
+        replayAll();
+        final CronofyResponse<CreateNotificationChannelResponse> result = cronofyClient.createNotificationChannel(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
     //endregion
 
     //region listNotificationChannels
@@ -1118,6 +1217,33 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         replayAll();
         final CronofyResponse<CloseNotificationChannelResponse> result = cronofyClient.closeNotificationChannel(request);
         getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When unknown status code
+     */
+    @Test
+    public void testCloseNotificationChannelScenario4() {
+        resetAll();
+        // test data
+        final CloseNotificationChannelRequest request = getHelper().getCloseNotificationChannelRequest();
+        final Response expectedResult = Response.status(1024).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CHANNELS_PATH)).andReturn(webTarget);
+        expect(webTarget.path(request.getChannelId())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.delete()).andReturn(expectedResult);
+        replayAll();
+        try {
+            cronofyClient.closeNotificationChannel(request);
+            fail("Exception should be thrown");
+        } catch (final UnknownStatusCodeException ignore) {
+            // Expected
+        }
         verifyAll();
     }
     //endregion
