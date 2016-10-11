@@ -168,7 +168,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     public CronofyResponse<ReadEventsResponse> readEvents(final ReadEventsRequest request) {
         assertCronofyRequest(request);
         try {
-            return getClient()
+            final CronofyResponse<ReadEventsResponse> result = getClient()
                     .target(BASE_PATH)
                     .path(API_VERSION)
                     .path(EVENTS_PATH)
@@ -186,6 +186,26 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<ReadEventsResponse>>() {
                     });
+            final CronofyResponse<ReadEventsResponse> response = new CronofyResponse<>(new ReadEventsResponse(
+                    result.getResponse().getPages(),
+                    result.getResponse().getEvents()
+            ));
+            String nextPage = result.getResponse().getPages().getNextPage();
+            while (true) {
+                if (StringUtils.isBlank(nextPage)) {
+                    break;
+                }
+                final CronofyResponse<ReadEventsResponse> pageResult = getClient()
+                        .target(nextPage)
+                        .request(MediaType.APPLICATION_JSON_TYPE)
+                        .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                        .get(new GenericType<CronofyResponse<ReadEventsResponse>>() {
+                        });
+                response.getResponse().getEvents().addAll(pageResult.getResponse().getEvents());
+                response.getResponse().setPages(pageResult.getResponse().getPages());
+                nextPage = pageResult.getResponse().getPages().getNextPage();
+            }
+            return response;
         } catch (final NotAuthorizedException ignore) {
             LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
