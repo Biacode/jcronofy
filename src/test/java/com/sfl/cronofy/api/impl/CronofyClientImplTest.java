@@ -3,6 +3,7 @@ package com.sfl.cronofy.api.impl;
 import com.sfl.cronofy.api.client.CronofyClient;
 import com.sfl.cronofy.api.client.exception.UnknownStatusCodeException;
 import com.sfl.cronofy.api.client.impl.CronofyClientImpl;
+import com.sfl.cronofy.api.model.EventsPagesModel;
 import com.sfl.cronofy.api.model.ScopeModel;
 import com.sfl.cronofy.api.model.TokenTypeModel;
 import com.sfl.cronofy.api.model.common.CronofyResponse;
@@ -438,17 +439,18 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     }
 
     /**
-     * General case
+     * When does not have pages
      */
     @Test
     public void testReadEventsScenario2() {
         resetAll();
         // test data
         final ReadEventsRequest request = getHelper().getReadEventsRequest();
+        final EventsPagesModel eventsPagesModel = getHelper().buildEventsPagesModel();
+        eventsPagesModel.setNextPage(null);
 
         final CronofyResponse<ReadEventsResponse> expectedResponse = new CronofyResponse<>(new ReadEventsResponse(
-                getHelper().buildEventsPagesModel(),
-                new ArrayList<>(Arrays.asList(getHelper().buildEventModel(), getHelper().buildEventModel()))
+                eventsPagesModel, new ArrayList<>(Arrays.asList(getHelper().buildEventModel(), getHelper().buildEventModel()))
         ));
         // expectations
         expect(client.target(BASE_PATH)).andReturn(webTarget);
@@ -475,10 +477,68 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     }
 
     /**
-     * When not authorized exception has been thrown
+     * When has pages
      */
     @Test
     public void testReadEventsScenario3() {
+        resetAll();
+        // test data
+        final ReadEventsRequest request = getHelper().getReadEventsRequest();
+        final EventsPagesModel eventsPagesModel1 = getHelper().buildEventsPagesModel();
+        final EventsPagesModel eventsPagesModel2 = getHelper().buildEventsPagesModel();
+        eventsPagesModel2.setNextPage(null);
+
+        final CronofyResponse<ReadEventsResponse> expectedResponse = new CronofyResponse<>(new ReadEventsResponse(
+                eventsPagesModel1,
+                new ArrayList<>(Arrays.asList(getHelper().buildEventModel(), getHelper().buildEventModel()))
+        ));
+
+        final CronofyResponse<ReadEventsResponse> pageResult1 = new CronofyResponse<>(new ReadEventsResponse(
+                eventsPagesModel2,
+                new ArrayList<>(Arrays.asList(getHelper().buildEventModel(), getHelper().buildEventModel()))
+        ));
+
+        final CronofyResponse<ReadEventsResponse> finalResponse = new CronofyResponse<>(new ReadEventsResponse(
+                eventsPagesModel2,
+                new ArrayList<>()
+        ));
+        finalResponse.getResponse().getEvents().addAll(expectedResponse.getResponse().getEvents());
+        finalResponse.getResponse().getEvents().addAll(pageResult1.getResponse().getEvents());
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam("from", request.getFrom())).andReturn(webTarget);
+        expect(webTarget.queryParam("to", request.getTo())).andReturn(webTarget);
+        expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_deleted", request.isIncludeDeleted())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_moved", request.isIncludeMoved())).andReturn(webTarget);
+        expect(webTarget.queryParam("last_modified", request.getLastModified())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_managed", request.isIncludeManaged())).andReturn(webTarget);
+        expect(webTarget.queryParam("only_managed", request.isOnlyManaged())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("localized_times", request.isLocalizedTimes())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.get(new GenericType<CronofyResponse<ReadEventsResponse>>() {
+        })).andReturn(expectedResponse);
+        // first iteration
+        expect(client.target(eventsPagesModel1.getNextPage())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.get(new GenericType<CronofyResponse<ReadEventsResponse>>() {
+        })).andReturn(pageResult1);
+        replayAll();
+        final CronofyResponse<ReadEventsResponse> result = cronofyClient.readEvents(request);
+        getHelper().assertResultResponse(finalResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When not authorized exception has been thrown
+     */
+    @Test
+    public void testReadEventsScenario4() {
         resetAll();
         // test data
         final ReadEventsRequest request = getHelper().getReadEventsRequest();
@@ -497,7 +557,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
      * When forbidden exception has been thrown
      */
     @Test
-    public void testReadEventsScenario4() {
+    public void testReadEventsScenario5() {
         resetAll();
         // test data
         final ReadEventsRequest request = getHelper().getReadEventsRequest();

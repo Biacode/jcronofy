@@ -31,6 +31,10 @@ public class ReadEventsResponse extends AbstractCronofyResponse {
     public ReadEventsResponse() {
     }
 
+    public ReadEventsResponse(final List<EventModel> events) {
+        this.events = events;
+    }
+
     public ReadEventsResponse(final EventsPagesModel pages,
                               final List<EventModel> events) {
         this.pages = pages;
