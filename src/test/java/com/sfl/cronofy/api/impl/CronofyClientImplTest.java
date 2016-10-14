@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.reset;
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 /**
@@ -456,8 +455,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
-        expect(webTarget.queryParam("from", request.getFrom())).andReturn(webTarget);
-        expect(webTarget.queryParam("to", request.getTo())).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("from"), isA(String.class))).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("to"), isA(String.class))).andReturn(webTarget);
         expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
         expect(webTarget.queryParam("include_deleted", request.isIncludeDeleted())).andReturn(webTarget);
         expect(webTarget.queryParam("include_moved", request.isIncludeMoved())).andReturn(webTarget);
@@ -508,8 +507,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
-        expect(webTarget.queryParam("from", request.getFrom())).andReturn(webTarget);
-        expect(webTarget.queryParam("to", request.getTo())).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("from"), isA(String.class))).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("to"), isA(String.class))).andReturn(webTarget);
         expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
         expect(webTarget.queryParam("include_deleted", request.isIncludeDeleted())).andReturn(webTarget);
         expect(webTarget.queryParam("include_moved", request.isIncludeMoved())).andReturn(webTarget);
@@ -633,8 +632,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path("free_busy")).andReturn(webTarget);
-        expect(webTarget.queryParam("from", request.getFrom())).andReturn(webTarget);
-        expect(webTarget.queryParam("to", request.getTo())).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("from"), isA(String.class))).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("to"), isA(String.class))).andReturn(webTarget);
         expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
         expect(webTarget.queryParam("include_managed", request.getIncludeManaged())).andReturn(webTarget);
         expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
@@ -1449,6 +1448,9 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     }
     //endregion
 
+    //endregion
+
+    //region Utility methods
     //endregion
 
 }
