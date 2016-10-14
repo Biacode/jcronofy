@@ -10,6 +10,8 @@ import com.sfl.cronofy.api.model.common.ErrorTypeModel;
 import com.sfl.cronofy.api.model.request.*;
 import com.sfl.cronofy.api.model.response.*;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +24,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 
 /**
  * User: Arthur Asatryan
@@ -55,6 +58,12 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     private static final String API_VERSION = "v1";
 
     private static final String REVOKE = "revoke";
+
+    private static final String QUERY_PARAM_DATE_FORMAT = "YYYY-MM-dd";
+
+    private static final int START_DATE_DAY_OFFSET = 0;
+
+    private static final int END_DATE_DAY_OFFSET = 1;
 
     //region Exception messages
     private static final String UNKNOWN_STATUS_CODE_EXCEPTION_MSG = "Got an unknown status code - {} while processing request - {}";
@@ -172,8 +181,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .target(BASE_PATH)
                     .path(API_VERSION)
                     .path(EVENTS_PATH)
-                    .queryParam("from", request.getFrom())
-                    .queryParam("to", request.getTo())
+                    .queryParam("from", getQueryParamFromDate(request.getFrom(), START_DATE_DAY_OFFSET))
+                    .queryParam("to", getQueryParamFromDate(request.getTo(), END_DATE_DAY_OFFSET))
                     .queryParam("tzid", request.getTzId())
                     .queryParam("include_deleted", request.isIncludeDeleted())
                     .queryParam("include_moved", request.isIncludeMoved())
@@ -226,8 +235,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .target(BASE_PATH)
                     .path(API_VERSION)
                     .path("free_busy")
-                    .queryParam("from", request.getFrom())
-                    .queryParam("to", request.getTo())
+                    .queryParam("from", getQueryParamFromDate(request.getFrom(), START_DATE_DAY_OFFSET))
+                    .queryParam("to", getQueryParamFromDate(request.getTo(), END_DATE_DAY_OFFSET))
                     .queryParam("tzid", request.getTzId())
                     .queryParam("include_managed", request.getIncludeManaged())
                     .queryParam("calendar_ids", request.getCalendarIds())
@@ -440,6 +449,10 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 && StringUtils.isBlank(((AbstractAccessTokenAwareCronofyRequest) request).getAccessToken())) {
             throw new IllegalArgumentException("The access token should not be blank");
         }
+    }
+
+    private String getQueryParamFromDate(final Date date, final int daysToAdd) {
+        return new DateTime(date).plusDays(daysToAdd).withZone(DateTimeZone.UTC).toString(QUERY_PARAM_DATE_FORMAT);
     }
     //endregion
 }
