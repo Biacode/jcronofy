@@ -1,7 +1,6 @@
 package com.sfl.cronofy.api.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sfl.cronofy.api.model.ScopeModel;
 import com.sfl.cronofy.api.model.TokenTypeModel;
 import com.sfl.cronofy.api.model.common.AbstractCronofyResponse;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -31,7 +30,7 @@ public class UpdateAccessTokenResponse extends AbstractCronofyResponse {
     private int expiresIn;
 
     @JsonProperty("scope")
-    private ScopeModel scope;
+    private String scope;
     //endregion
 
     //region Constructors
@@ -42,7 +41,7 @@ public class UpdateAccessTokenResponse extends AbstractCronofyResponse {
                                      final String accessToken,
                                      final String refreshToken,
                                      final int expiresIn,
-                                     final ScopeModel scope) {
+                                     final String scope) {
         this.tokenType = tokenType;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
@@ -126,11 +125,11 @@ public class UpdateAccessTokenResponse extends AbstractCronofyResponse {
         this.expiresIn = expiresIn;
     }
 
-    public ScopeModel getScope() {
+    public String getScope() {
         return scope;
     }
 
-    public void setScope(final ScopeModel scope) {
+    public void setScope(final String scope) {
         this.scope = scope;
     }
     //endregion
