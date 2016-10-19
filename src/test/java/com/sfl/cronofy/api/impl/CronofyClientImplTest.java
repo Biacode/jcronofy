@@ -4,7 +4,6 @@ import com.sfl.cronofy.api.client.CronofyClient;
 import com.sfl.cronofy.api.client.exception.UnknownStatusCodeException;
 import com.sfl.cronofy.api.client.impl.CronofyClientImpl;
 import com.sfl.cronofy.api.model.EventsPagesModel;
-import com.sfl.cronofy.api.model.ScopeModel;
 import com.sfl.cronofy.api.model.TokenTypeModel;
 import com.sfl.cronofy.api.model.common.CronofyResponse;
 import com.sfl.cronofy.api.model.common.ErrorTypeModel;
@@ -190,7 +189,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
                         TokenTypeModel.BEARER, UUID.randomUUID().toString(),
                         UUID.randomUUID().toString(),
                         3600,
-                        ScopeModel.CREATE_EVENT
+                        UUID.randomUUID().toString()
                 ));
         // expectations
         expect(client.target(BASE_PATH)).andReturn(webTarget);
