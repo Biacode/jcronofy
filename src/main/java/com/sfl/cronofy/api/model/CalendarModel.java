@@ -14,6 +14,7 @@ import java.io.Serializable;
  * Date: 10/4/16
  * Time: 4:36 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CalendarModel implements Serializable {
     private static final long serialVersionUID = -8213123410490665962L;
 
