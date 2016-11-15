@@ -78,9 +78,6 @@ public class EventModel implements Serializable {
 
     @JsonProperty("actions")
     private ActionsModel actions;
-
-    @JsonProperty("organizer")
-    private String organizer;
     //endregion
 
     //region Constructors
@@ -105,8 +102,7 @@ public class EventModel implements Serializable {
                       final Date updated,
                       final boolean recurring,
                       final OptionModel options,
-                      final ActionsModel actions,
-                      final String organizer) {
+                      final ActionsModel actions) {
         this.calendarId = calendarId;
         this.eventUid = eventUid;
         this.summary = summary;
@@ -126,7 +122,6 @@ public class EventModel implements Serializable {
         this.recurring = recurring;
         this.options = options;
         this.actions = actions;
-        this.organizer = organizer;
     }
     //endregion
 
@@ -160,7 +155,6 @@ public class EventModel implements Serializable {
                 .append(recurring, that.recurring)
                 .append(options, that.options)
                 .append(actions, that.actions)
-                .append(organizer, that.organizer)
                 .isEquals();
     }
 
@@ -186,7 +180,6 @@ public class EventModel implements Serializable {
                 .append(recurring)
                 .append(options)
                 .append(actions)
-                .append(organizer)
                 .toHashCode();
     }
 
@@ -212,7 +205,6 @@ public class EventModel implements Serializable {
                 .append("recurring", recurring)
                 .append("options", options)
                 .append("actions", actions)
-                .append("organizer", organizer)
                 .toString();
     }
     //endregion
@@ -368,14 +360,6 @@ public class EventModel implements Serializable {
 
     public void setActions(final ActionsModel actions) {
         this.actions = actions;
-    }
-
-    public String getOrganizer() {
-        return organizer;
-    }
-
-    public void setOrganizer(final String organizer) {
-        this.organizer = organizer;
     }
     //endregion
 

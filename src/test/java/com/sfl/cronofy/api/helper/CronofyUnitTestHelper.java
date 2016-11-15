@@ -83,8 +83,7 @@ public final class CronofyUnitTestHelper {
                 new Date(),
                 false,
                 buildOptionModel(),
-                buildActionsModel(),
-                UUID.randomUUID().toString()
+                buildActionsModel()
         );
     }
 
