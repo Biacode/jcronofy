@@ -23,7 +23,7 @@ public class EventsPagesModel implements Serializable {
     @JsonProperty("total")
     private int total;
 
-    @JsonProperty("nextPage")
+    @JsonProperty("next_page")
     private String nextPage;
     //endregion
 
