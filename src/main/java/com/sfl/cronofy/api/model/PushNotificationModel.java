@@ -1,6 +1,5 @@
 package com.sfl.cronofy.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -20,7 +19,6 @@ public class PushNotificationModel implements Serializable {
     private static final long serialVersionUID = 1150678866702190273L;
 
     //region Properties
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "GMT")
     @JsonProperty("changes_since")
     private Date changesSince;
 

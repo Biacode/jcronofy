@@ -12,7 +12,9 @@ public enum NotificationTypeModel {
     @JsonProperty("verification")
     VERIFICATION("verification"),
     @JsonProperty("change")
-    CHANGE("change");
+    CHANGE("change"),
+    @JsonProperty("profile_disconnected")
+    PROFILE_DISCONNECTED("profile_disconnected");
 
     String type;
 
