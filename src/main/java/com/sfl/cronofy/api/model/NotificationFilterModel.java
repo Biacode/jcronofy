@@ -31,6 +31,14 @@ public class NotificationFilterModel implements Serializable {
     public NotificationFilterModel() {
     }
 
+    public NotificationFilterModel(final List<String> calendarIds) {
+        this.calendarIds = calendarIds;
+    }
+
+    public NotificationFilterModel(final Boolean onlyManaged) {
+        this.onlyManaged = onlyManaged;
+    }
+
     public NotificationFilterModel(final List<String> calendarIds,
                                    final Boolean onlyManaged) {
         this.calendarIds = calendarIds;
