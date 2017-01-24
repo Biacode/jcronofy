@@ -61,6 +61,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     private static final String QUERY_PARAM_DATE_FORMAT = "YYYY-MM-dd";
 
+    private static final String QUERY_PARAM_ISO8601_FORMAT = "YYYY-MM-dd'T'HH:mm:ss'Z'";
+
     private static final int START_DATE_DAY_OFFSET = 0;
 
     private static final int END_DATE_DAY_OFFSET = 1;
@@ -183,10 +185,10 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .path(EVENTS_PATH)
                     .queryParam("from", getQueryParamFromDate(request.getFrom(), START_DATE_DAY_OFFSET))
                     .queryParam("to", getQueryParamFromDate(request.getTo(), END_DATE_DAY_OFFSET))
+                    .queryParam("last_modified", convertToISO8601(request.getLastModified()))
                     .queryParam("tzid", request.getTzId())
                     .queryParam("include_deleted", request.isIncludeDeleted())
                     .queryParam("include_moved", request.isIncludeMoved())
-                    .queryParam("last_modified", request.getLastModified())
                     .queryParam("include_managed", request.isIncludeManaged())
                     .queryParam("only_managed", request.isOnlyManaged())
                     .queryParam("calendar_ids", request.getCalendarIds())
@@ -452,7 +454,11 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     }
 
     private String getQueryParamFromDate(final Date date, final int daysToAdd) {
-        return new DateTime(date).plusDays(daysToAdd).withZone(DateTimeZone.UTC).toString(QUERY_PARAM_DATE_FORMAT);
+        return date == null ? null : new DateTime(date).plusDays(daysToAdd).withZone(DateTimeZone.UTC).toString(QUERY_PARAM_DATE_FORMAT);
+    }
+
+    private String convertToISO8601(final Date date) {
+        return date == null ? null : new DateTime(date).withZone(DateTimeZone.UTC).toString(QUERY_PARAM_ISO8601_FORMAT);
     }
     //endregion
 }
