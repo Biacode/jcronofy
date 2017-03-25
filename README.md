@@ -1,5 +1,5 @@
 ### CI Status
-[![Build Status](https://travis-ci.org/bia-code/jcronofy.svg?branch=master)](https://travis-ci.org/bia-code/jcronofy)
+[![Build Status](https://travis-ci.org/Biacode/jcronofy.svg?branch=master)](https://travis-ci.org/Biacode/jcronofy)
 [![SonarCube](https://getstreaming.files.wordpress.com/2012/10/sonar.png)](https://sonarqube.com/dashboard/index/com.sfl.cronofy:cronofy)
 # jcronofy
 Java implementation of Cronofy API
