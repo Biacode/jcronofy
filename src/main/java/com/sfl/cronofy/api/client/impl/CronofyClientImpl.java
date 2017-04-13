@@ -3,10 +3,7 @@ package com.sfl.cronofy.api.client.impl;
 import com.sfl.cronofy.api.client.AbstractCronofyClient;
 import com.sfl.cronofy.api.client.CronofyClient;
 import com.sfl.cronofy.api.client.exception.UnknownStatusCodeException;
-import com.sfl.cronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
-import com.sfl.cronofy.api.model.common.AbstractCronofyRequest;
-import com.sfl.cronofy.api.model.common.CronofyResponse;
-import com.sfl.cronofy.api.model.common.ErrorTypeModel;
+import com.sfl.cronofy.api.model.common.*;
 import com.sfl.cronofy.api.model.request.*;
 import com.sfl.cronofy.api.model.response.*;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +29,7 @@ import java.util.Date;
  * Date: 10/5/16
  * Time: 11:44 AM
  */
+@SuppressWarnings({"squid:S1075"})
 public class CronofyClientImpl extends AbstractCronofyClient implements CronofyClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CronofyClientImpl.class);
@@ -275,23 +273,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE)
                 );
         final int statusCode = result.getStatus();
-        switch (statusCode) {
-            case 202:
-                response.setResponse(new CreateOrUpdateEventResponse());
-                break;
-            case 401:
-                response.setError(ErrorTypeModel.NOT_AUTHORIZED);
-                break;
-            case 403:
-                response.setError(ErrorTypeModel.FORBIDDEN);
-                break;
-            case 422:
-                response.setError(ErrorTypeModel.UNPROCESSABLE);
-                break;
-            default:
-                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
-                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
-        }
+        processStatusCode(request, response, statusCode);
         return response;
     }
 
@@ -311,23 +293,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                 .delete();
         final int statusCode = result.getStatus();
-        switch (statusCode) {
-            case 202:
-                response.setResponse(new DeleteEventResponse());
-                break;
-            case 401:
-                response.setError(ErrorTypeModel.NOT_AUTHORIZED);
-                break;
-            case 403:
-                response.setError(ErrorTypeModel.FORBIDDEN);
-                break;
-            case 422:
-                response.setError(ErrorTypeModel.UNPROCESSABLE);
-                break;
-            default:
-                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
-                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
-        }
+        processStatusCode(request, response, statusCode);
         return response;
     }
 
@@ -459,6 +425,27 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     private String convertToISO8601(final Date date) {
         return date == null ? null : new DateTime(date).withZone(DateTimeZone.UTC).toString(QUERY_PARAM_ISO8601_FORMAT);
+    }
+
+    private void processStatusCode(final AbstractCronofyRequest request,
+                                   final CronofyResponse<? extends AbstractCronofyResponse> response,
+                                   final int statusCode) {
+        switch (statusCode) {
+            case 202:
+                break;
+            case 401:
+                response.setError(ErrorTypeModel.NOT_AUTHORIZED);
+                break;
+            case 403:
+                response.setError(ErrorTypeModel.FORBIDDEN);
+                break;
+            case 422:
+                response.setError(ErrorTypeModel.UNPROCESSABLE);
+                break;
+            default:
+                LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
+                throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
+        }
     }
     //endregion
 }
