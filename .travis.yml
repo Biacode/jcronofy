@@ -4,7 +4,6 @@ directories:
   – $HOME/.sonar/cache
 
 env:
-secure: "Dy5uks+b6mwRk4DwOQZPVjtfJEzCyDKu/wHxfykCz6OlfM9rDKYofB1RPjC169NQxxLDkiG7Pnmgk7qHv8dioeo2WqdvBHHv1JHgmnY/F4ohQW86rAVxVPWjV190y4QMOh05s1FTl2ZneI/z1gDG7laBSWa8rhwaWeFqhs5gtRWsB0+MdW3HvNDd0wlm5UuFu8lMX6jr7H/W2EN/7TMHpEKBW5Y1YGC4GlK/t+QGk6EP0KGaqGRfiXT32NenC+xAtc/toHmE8bmpBi2Ja+z9adTrOMMM3ey9tFcc8Q3VpQPnVk9OglYidK1rnoGepPqXkGWzW768mOuzct8qamT1O7jPGuqF9AOGd3nWoKtpLoWNxI/+9CbmZ8rPPpvM0Dd8xMpVu+UhcioNdtcRE8NohMGniBGqU9L8GHdNX9pbOLhqP/VENoz3qtgmIF4wEpG2R5BfG8XgOGWPphIW67m+MJ589rF/wl/XopsffGnsNO5+dh1XAyVUgbDY4tJW65whiBlesomgkVhSMy5mMmhqS7/MNZpZg7UxW5sZ+264/XLxRaR5GH2D0Wgr9oqd95g/hCdgCG4GfkITGKOjN73apcQMa6oQIeIcj34yScZ/6m4yfUFHXwJkf3j3AJeUOw2plbiuS1H/0Rlze2M82iLN20p9smbzQhNeGokfq8pbONU="
 language: java
 jdk: oraclejdk8
-script: mvn clean install sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.login=$SONAR_TOKEN -P sonar
+script: mvn clean install sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -P sonar
