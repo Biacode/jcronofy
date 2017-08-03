@@ -198,12 +198,8 @@ public class ReadEventsRequest extends AbstractAccessTokenAwareCronofyRequest {
         this.onlyManaged = onlyManaged;
     }
 
-    public Object[] getCalendarIds() {
-        if (calendarIds == null) {
-            return new Object[0];
-        }
-
-        return calendarIds.toArray();
+    public List<String> getCalendarIds() {
+        return calendarIds;
     }
 
     public void setCalendarIds(final List<String> calendarIds) {

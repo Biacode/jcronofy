@@ -481,7 +481,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.queryParam("include_moved", request.isIncludeMoved())).andReturn(webTarget);
         expect(webTarget.queryParam("include_managed", request.isIncludeManaged())).andReturn(webTarget);
         expect(webTarget.queryParam("only_managed", request.isOnlyManaged())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids[]", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.queryParam("localized_times", request.isLocalizedTimes())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
@@ -533,7 +533,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.queryParam("include_moved", request.isIncludeMoved())).andReturn(webTarget);
         expect(webTarget.queryParam("include_managed", request.isIncludeManaged())).andReturn(webTarget);
         expect(webTarget.queryParam("only_managed", request.isOnlyManaged())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids[]", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.queryParam("localized_times", request.isLocalizedTimes())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
@@ -607,6 +607,45 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }
+
+    /**
+     * When calendar specified
+     */
+    @Test
+    public void testReadEventsScenario7() {
+        resetAll();
+        // test data
+        final String calendarId = "cal_123_456";
+        final ReadEventsRequest request = getHelper().getReadEventsRequestWithCalendar(calendarId);
+        final EventsPagesModel eventsPagesModel = getHelper().buildEventsPagesModel();
+        eventsPagesModel.setNextPage(null);
+
+        final CronofyResponse<ReadEventsResponse> expectedResponse = new CronofyResponse<>(new ReadEventsResponse(
+                eventsPagesModel, new ArrayList<>(Arrays.asList(getHelper().buildEventModel(), getHelper().buildEventModel()))
+        ));
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("from"), eq(null))).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("to"), eq(null))).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("last_modified"), eq(null))).andReturn(webTarget);
+        expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_deleted", request.isIncludeDeleted())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_moved", request.isIncludeMoved())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_managed", request.isIncludeManaged())).andReturn(webTarget);
+        expect(webTarget.queryParam("only_managed", request.isOnlyManaged())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[] { calendarId })).andReturn(webTarget);
+        expect(webTarget.queryParam("localized_times", request.isLocalizedTimes())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.get(new GenericType<CronofyResponse<ReadEventsResponse>>() {
+        })).andReturn(expectedResponse);
+        replayAll();
+        final CronofyResponse<ReadEventsResponse> result = cronofyClient.readEvents(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
     //endregion
 
     //region freeBusy
@@ -654,7 +693,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.queryParam(eq("to"), eq(null))).andReturn(webTarget);
         expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
         expect(webTarget.queryParam("include_managed", request.getIncludeManaged())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids[]", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.queryParam("localized_times", request.getLocalizedTimes())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
@@ -717,6 +756,40 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         );
         // expectations
         expect(client.target(BASE_PATH)).andThrow(new ClientErrorException(Response.Status.CONFLICT));
+        replayAll();
+        final CronofyResponse<FreeBusyResponse> result = cronofyClient.freeBusy(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * Calendar ID specified
+     */
+    @Test
+    public void testFreeBusyScenario6() {
+        resetAll();
+        // test data
+        final String calendarId = "cal_123_456";
+        final FreeBusyRequest request = getHelper().getFreeBusyRequestWithCalendar(calendarId);
+
+        final CronofyResponse<FreeBusyResponse> expectedResponse = new CronofyResponse<>(new FreeBusyResponse(
+                getHelper().buildEventsPagesModel(),
+                new ArrayList<>(Arrays.asList(getHelper().buildFreeBusyModel(), getHelper().buildFreeBusyModel()))
+        ));
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path("free_busy")).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("from"), eq(null))).andReturn(webTarget);
+        expect(webTarget.queryParam(eq("to"), eq(null))).andReturn(webTarget);
+        expect(webTarget.queryParam("tzid", request.getTzId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_managed", request.getIncludeManaged())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[] { calendarId })).andReturn(webTarget);
+        expect(webTarget.queryParam("localized_times", request.getLocalizedTimes())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.get(new GenericType<CronofyResponse<FreeBusyResponse>>() {
+        })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<FreeBusyResponse> result = cronofyClient.freeBusy(request);
         getHelper().assertResultResponse(expectedResponse, result);

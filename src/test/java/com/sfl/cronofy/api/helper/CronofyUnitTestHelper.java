@@ -184,8 +184,24 @@ public final class CronofyUnitTestHelper {
         );
     }
 
+    public ReadEventsRequest getReadEventsRequestWithCalendar(String calendarId) {
+        ReadEventsRequest request = getReadEventsRequest();
+
+        request.setCalendarIds(Arrays.asList(calendarId));
+
+        return request;
+    }
+
     public FreeBusyRequest getFreeBusyRequest() {
         return new FreeBusyRequest(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+    }
+
+    public FreeBusyRequest getFreeBusyRequestWithCalendar(String calendarId) {
+        FreeBusyRequest request = getFreeBusyRequest();
+
+        request.setCalendarIds(Arrays.asList(calendarId));
+
+        return request;
     }
 
     public CreateOrUpdateEventRequest getCreateOrUpdateEventRequest() {

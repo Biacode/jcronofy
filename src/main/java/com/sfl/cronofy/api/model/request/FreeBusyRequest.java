@@ -144,12 +144,8 @@ public class FreeBusyRequest extends AbstractAccessTokenAwareCronofyRequest {
         this.includeManaged = includeManaged;
     }
 
-    public Object[] getCalendarIds() {
-        if (calendarIds == null) {
-            return new Object[0];
-        }
-
-        return calendarIds.toArray();
+    public List<String> getCalendarIds() {
+        return calendarIds;
     }
 
     public void setCalendarIds(final List<String> calendarIds) {
