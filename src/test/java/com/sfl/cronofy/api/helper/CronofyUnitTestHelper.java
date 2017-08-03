@@ -5,10 +5,7 @@ import com.sfl.cronofy.api.model.common.AbstractCronofyResponse;
 import com.sfl.cronofy.api.model.common.CronofyResponse;
 import com.sfl.cronofy.api.model.request.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -184,11 +181,9 @@ public final class CronofyUnitTestHelper {
         );
     }
 
-    public ReadEventsRequest getReadEventsRequestWithCalendar(String calendarId) {
-        ReadEventsRequest request = getReadEventsRequest();
-
-        request.setCalendarIds(Arrays.asList(calendarId));
-
+    public ReadEventsRequest getReadEventsRequestWithCalendarIds(final List<String> calendarIds) {
+        final ReadEventsRequest request = getReadEventsRequest();
+        request.setCalendarIds(calendarIds);
         return request;
     }
 
@@ -196,11 +191,9 @@ public final class CronofyUnitTestHelper {
         return new FreeBusyRequest(UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
-    public FreeBusyRequest getFreeBusyRequestWithCalendar(String calendarId) {
-        FreeBusyRequest request = getFreeBusyRequest();
-
-        request.setCalendarIds(Arrays.asList(calendarId));
-
+    public FreeBusyRequest getFreeBusyRequestWithCalendarIds(final List<String> calendarIds) {
+        final FreeBusyRequest request = getFreeBusyRequest();
+        request.setCalendarIds(calendarIds);
         return request;
     }
 

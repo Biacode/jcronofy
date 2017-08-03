@@ -190,7 +190,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .queryParam("include_moved", request.isIncludeMoved())
                     .queryParam("include_managed", request.isIncludeManaged())
                     .queryParam("only_managed", request.isOnlyManaged())
-                    .queryParam("calendar_ids[]", listToArray(request.getCalendarIds()))
+                    .queryParam("calendar_ids[]", getCalendarIdsArray(request.getCalendarIds()))
                     .queryParam("localized_times", request.isLocalizedTimes())
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
@@ -240,7 +240,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .queryParam("to", getQueryParamFromDate(request.getTo(), END_DATE_DAY_OFFSET))
                     .queryParam("tzid", request.getTzId())
                     .queryParam("include_managed", request.getIncludeManaged())
-                    .queryParam("calendar_ids[]", listToArray(request.getCalendarIds()))
+                    .queryParam("calendar_ids[]", getCalendarIdsArray(request.getCalendarIds()))
                     .queryParam("localized_times", request.getLocalizedTimes())
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
@@ -449,12 +449,11 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         }
     }
 
-    private String[] listToArray(List<String> list) {
-        if (list == null) {
+    private Object[] getCalendarIdsArray(final List<String> calendarIds) {
+        if (calendarIds == null) {
             return new String[0];
         }
-
-        return list.toArray(new String[list.size()]);
+        return calendarIds.toArray(new String[calendarIds.size()]);
     }
     //endregion
 }
