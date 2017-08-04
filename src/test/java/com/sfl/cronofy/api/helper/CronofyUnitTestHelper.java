@@ -5,10 +5,7 @@ import com.sfl.cronofy.api.model.common.AbstractCronofyResponse;
 import com.sfl.cronofy.api.model.common.CronofyResponse;
 import com.sfl.cronofy.api.model.request.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -184,8 +181,20 @@ public final class CronofyUnitTestHelper {
         );
     }
 
+    public ReadEventsRequest getReadEventsRequestWithCalendarIds(final List<String> calendarIds) {
+        final ReadEventsRequest request = getReadEventsRequest();
+        request.setCalendarIds(calendarIds);
+        return request;
+    }
+
     public FreeBusyRequest getFreeBusyRequest() {
         return new FreeBusyRequest(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+    }
+
+    public FreeBusyRequest getFreeBusyRequestWithCalendarIds(final List<String> calendarIds) {
+        final FreeBusyRequest request = getFreeBusyRequest();
+        request.setCalendarIds(calendarIds);
+        return request;
     }
 
     public CreateOrUpdateEventRequest getCreateOrUpdateEventRequest() {
