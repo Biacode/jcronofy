@@ -33,6 +33,9 @@ public class ProfileModel implements Serializable {
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonProperty("profile_relink_url")
     private String profileRelinkUrl;
+
+    @JsonProperty("icloud_app_specific_password_required")
+    private boolean icloudAppSpecificPasswordRequired;
     //endregion
 
     //region Constructors
@@ -43,12 +46,14 @@ public class ProfileModel implements Serializable {
                         final String profileId,
                         final String profileName,
                         final boolean profileConnected,
-                        final String profileRelinkUrl) {
+                        final String profileRelinkUrl,
+                        final boolean icloudAppSpecificPasswordRequired) {
         this.providerName = providerName;
         this.profileId = profileId;
         this.profileName = profileName;
         this.profileConnected = profileConnected;
         this.profileRelinkUrl = profileRelinkUrl;
+        this.icloudAppSpecificPasswordRequired = icloudAppSpecificPasswordRequired;
     }
     //endregion
 
@@ -68,6 +73,7 @@ public class ProfileModel implements Serializable {
                 .append(profileName, that.profileName)
                 .append(profileConnected, that.profileConnected)
                 .append(profileRelinkUrl, that.profileRelinkUrl)
+                .append(icloudAppSpecificPasswordRequired, that.icloudAppSpecificPasswordRequired)
                 .isEquals();
     }
 
@@ -79,6 +85,7 @@ public class ProfileModel implements Serializable {
                 .append(profileName)
                 .append(profileConnected)
                 .append(profileRelinkUrl)
+                .append(icloudAppSpecificPasswordRequired)
                 .toHashCode();
     }
 
@@ -90,6 +97,7 @@ public class ProfileModel implements Serializable {
                 .append("profileName", profileName)
                 .append("profileConnected", profileConnected)
                 .append("profileRelinkUrl", profileRelinkUrl)
+                .append("icloudAppSpecificPasswordRequired", icloudAppSpecificPasswordRequired)
                 .toString();
     }
     //endregion
@@ -133,6 +141,14 @@ public class ProfileModel implements Serializable {
 
     public void setProfileRelinkUrl(final String profileRelinkUrl) {
         this.profileRelinkUrl = profileRelinkUrl;
+    }
+
+    public boolean isIcloudAppSpecificPasswordRequired() {
+        return icloudAppSpecificPasswordRequired;
+    }
+
+    public void setIcloudAppSpecificPasswordRequired(final boolean icloudAppSpecificPasswordRequired) {
+        this.icloudAppSpecificPasswordRequired = icloudAppSpecificPasswordRequired;
     }
     //endregion
 }
