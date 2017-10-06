@@ -207,6 +207,7 @@ public final class CronofyUnitTestHelper {
                 UUID.randomUUID().toString(),
                 new Date(),
                 new Date(),
+                UUID.randomUUID().toString(),
                 buildEventLocationModel()
         );
     }
