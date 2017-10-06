@@ -141,7 +141,8 @@ public final class CronofyUnitTestHelper {
                 UUID.randomUUID().toString(),
                 UUID.randomUUID().toString(),
                 true,
-                UUID.randomUUID().toString()
+                UUID.randomUUID().toString(),
+                false
         );
     }
 
