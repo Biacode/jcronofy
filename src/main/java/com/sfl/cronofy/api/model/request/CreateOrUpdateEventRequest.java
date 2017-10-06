@@ -40,6 +40,9 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
     @JsonProperty("end")
     private Date end;
 
+    @JsonProperty("tzid")
+    private String tzid;
+
     @JsonProperty("location")
     private EventLocationModel location;
     //endregion
@@ -55,6 +58,7 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
                                       final String description,
                                       final Date start,
                                       final Date end,
+                                      final String tzid,
                                       final EventLocationModel location) {
         super(accessToken);
         this.calendarId = calendarId;
@@ -63,6 +67,7 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
         this.description = description;
         this.start = ObjectUtils.clone(start);
         this.end = ObjectUtils.clone(end);
+        this.tzid = tzid;
         this.location = location;
     }
     //endregion
@@ -85,6 +90,7 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
                 .append(description, that.description)
                 .append(start, that.start)
                 .append(end, that.end)
+                .append(tzid, that.tzid)
                 .append(location, that.location)
                 .isEquals();
     }
@@ -99,6 +105,7 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
                 .append(description)
                 .append(start)
                 .append(end)
+                .append(tzid)
                 .append(location)
                 .toHashCode();
     }
@@ -112,6 +119,7 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
                 .append("description", description)
                 .append("start", start)
                 .append("end", end)
+                .append("tzid", tzid)
                 .append("location", location)
                 .toString();
     }
@@ -164,6 +172,14 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
 
     public void setEnd(final Date end) {
         this.end = ObjectUtils.clone(end);
+    }
+
+    public String getTzid() {
+        return tzid;
+    }
+
+    public void setTzid(final String tzid) {
+        this.tzid = tzid;
     }
 
     public EventLocationModel getLocation() {
