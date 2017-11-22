@@ -49,7 +49,7 @@ import com.sfl.cronofy.api.model.response.ListCalendarsResponse;
 import javax.ws.rs.client.ClientBuilder;
 
 public class MainApplication {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         // Construct cronofy java client
         final CronofyClient cronofyClient = new CronofyClientImpl(ClientBuilder.newBuilder().register(JacksonJsonProvider.class).build());
         // List calendars
