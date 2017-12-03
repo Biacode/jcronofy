@@ -24,11 +24,11 @@ Then you need pass client implementation to CronofyClient as constructor param.
 In application context XML add the following XML definition
 ```java
 <bean id="cronofyJerseyClientBuilder"
-          class="com.sfl.cronofy.api.configuration.impl.CronofyJerseyClientBuilderImpl"/>
+          class="org.biacode.jcronofy.api.configuration.impl.CronofyJerseyClientBuilderImpl"/>
 
 <bean id="cronofyJerseyClient" factory-bean="cronofyJerseyClientBuilder" factory-method="build"/>
 
-<bean id="cronofyClient" class="com.sfl.cronofy.api.client.impl.CronofyClientImpl">
+<bean id="cronofyClient" class="org.biacode.jcronofy.api.client.impl.CronofyClientImpl">
     <constructor-arg name="client" ref="cronofyJerseyClient"/>
 </bean>
 
@@ -40,11 +40,11 @@ Then construct jersey client as follows
 package my.application;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.sfl.cronofy.api.client.CronofyClient;
-import com.sfl.cronofy.api.client.impl.CronofyClientImpl;
-import com.sfl.cronofy.api.model.common.CronofyResponse;
-import com.sfl.cronofy.api.model.request.ListCalendarsRequest;
-import com.sfl.cronofy.api.model.response.ListCalendarsResponse;
+import org.biacode.jcronofy.api.client.CronofyClient;
+import org.biacode.jcronofy.api.client.impl.CronofyClientImpl;
+import org.biacode.jcronofy.api.model.common.CronofyResponse;
+import org.biacode.jcronofy.api.model.request.ListCalendarsRequest;
+import org.biacode.jcronofy.api.model.response.ListCalendarsResponse;
 
 import javax.ws.rs.client.ClientBuilder;
 
