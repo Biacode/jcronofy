@@ -7,6 +7,21 @@ Java implementation of Cronofy API
 
 ### Installation
 
+Maven
+```xml
+<dependency>
+    <groupId>org.biacode.jcronofy</groupId>
+    <artifactId>jcronofy</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+Gradle
+```groovy
+compile 'org.biacode.jcronofy:jcronofy:1.0.0'
+```
+
+### Getting started
+
 First of all, you need any implementation of ```javax.ws.rs.client.Client```
 For example you can use jersey client
 
