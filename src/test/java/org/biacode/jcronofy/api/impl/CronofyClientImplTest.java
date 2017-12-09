@@ -373,7 +373,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     public void testListCalendarsScenario2() {
         resetAll();
         // test data
-        final ListCalendarsRequest request = getHelper().getListCalendarsRequestRequest();
+        final ListCalendarsRequest request = getHelper().getListCalendarsRequest();
 
         final CronofyResponse<ListCalendarsResponse> expectedResponse = new CronofyResponse<>(new ListCalendarsResponse(
                 new ArrayList<>(Arrays.asList(getHelper().buildCalendarModel(), getHelper().buildCalendarModel()))
@@ -399,7 +399,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     public void testListCalendarsScenario3() {
         resetAll();
         // test data
-        final ListCalendarsRequest request = getHelper().getListCalendarsRequestRequest();
+        final ListCalendarsRequest request = getHelper().getListCalendarsRequest();
 
         final CronofyResponse<ListCalendarsResponse> expectedResponse = new CronofyResponse<>(
                 ErrorTypeModel.NOT_AUTHORIZED
@@ -419,7 +419,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     public void testListCalendarsScenario5() {
         resetAll();
         // test data
-        final ListCalendarsRequest request = getHelper().getListCalendarsRequestRequest();
+        final ListCalendarsRequest request = getHelper().getListCalendarsRequest();
         final CronofyResponse<ListCalendarsResponse> expectedResponse = new CronofyResponse<>(
                 ErrorTypeModel.UNPROCESSABLE
         );
@@ -427,6 +427,160 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(client.target(BASE_PATH)).andThrow(new ClientErrorException(Response.Status.CONFLICT));
         replayAll();
         final CronofyResponse<ListCalendarsResponse> result = cronofyClient.listCalendars(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+    //endregion
+
+    //region createCalendar
+
+    /**
+     * With invalid arguments
+     */
+    @Test
+    public void testCreateCalendarScenario1() {
+        resetAll();
+        // test data
+        // expectations
+        replayAll();
+        try {
+            cronofyClient.createCalendar(null);
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        try {
+            cronofyClient.createCalendar(new CreateCalendarRequest());
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        verifyAll();
+    }
+
+    /**
+     * General case
+     */
+    @Test
+    public void testCreateCalendarScenario() {
+        resetAll();
+        // test data
+        final CreateCalendarRequest request = getHelper().getCreateCalendarRequest();
+        final CronofyResponse<CreateCalendarResponse> expectedResponse = new CronofyResponse<>(
+                new CreateCalendarResponse(getHelper().buildCalendarModel())
+        );
+        final Response expectedResult = Response.status(202).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CALENDARS_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<CreateCalendarResponse> result = cronofyClient.createCalendar(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When not authorized exception has been thrown
+     */
+    @Test
+    public void testCreateCalendarScenario3() {
+        resetAll();
+        // test data
+        final CreateCalendarRequest request = getHelper().getCreateCalendarRequest();
+
+        final CronofyResponse<CreateCalendarResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.NOT_AUTHORIZED
+        );
+        final Response expectedResult = Response.status(401).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CALENDARS_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<CreateCalendarResponse> result = cronofyClient.createCalendar(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When unprocessable exception has been thrown
+     */
+    @Test
+    public void testCreateCalendarScenario4() {
+        resetAll();
+        // test data
+        final CreateCalendarRequest request = getHelper().getCreateCalendarRequest();
+
+        final CronofyResponse<CreateCalendarResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.UNPROCESSABLE
+        );
+        final Response expectedResult = Response.status(422).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CALENDARS_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<CreateCalendarResponse> result = cronofyClient.createCalendar(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When forbidden exception has been thrown
+     */
+    @Test
+    public void testCreateCalendarScenario5() {
+        resetAll();
+        // test data
+        final CreateCalendarRequest request = getHelper().getCreateCalendarRequest();
+
+        final CronofyResponse<CreateCalendarResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.FORBIDDEN
+        );
+        final Response expectedResult = Response.status(403).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CALENDARS_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<CreateCalendarResponse> result = cronofyClient.createCalendar(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When locked exception has been thrown
+     */
+    @Test
+    public void testCreateCalendarScenario6() {
+        resetAll();
+        // test data
+        final CreateCalendarRequest request = getHelper().getCreateCalendarRequest();
+
+        final CronofyResponse<CreateCalendarResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.LOCKED
+        );
+        final Response expectedResult = Response.status(423).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(CALENDARS_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE))).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<CreateCalendarResponse> result = cronofyClient.createCalendar(request);
         getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }

@@ -44,6 +44,13 @@ public interface CronofyClient {
     CronofyResponse<ListCalendarsResponse> listCalendars(final ListCalendarsRequest request);
 
     /**
+     * Create calendar
+     * @param request the request
+     * @return the cronofy response
+     */
+    CronofyResponse<CreateCalendarResponse> createCalendar(final CreateCalendarRequest request);
+
+    /**
      * Read events.
      *
      * @param request the request

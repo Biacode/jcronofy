@@ -171,8 +171,16 @@ public final class CronofyUnitTestHelper {
         );
     }
 
-    public ListCalendarsRequest getListCalendarsRequestRequest() {
+    public ListCalendarsRequest getListCalendarsRequest() {
         return new ListCalendarsRequest(UUID.randomUUID().toString());
+    }
+
+    public CreateCalendarRequest getCreateCalendarRequest() {
+        return new CreateCalendarRequest(
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString()
+        );
     }
 
     public ReadEventsRequest getReadEventsRequest() {

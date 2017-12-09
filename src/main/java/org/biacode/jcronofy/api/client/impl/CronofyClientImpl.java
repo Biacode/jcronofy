@@ -175,6 +175,23 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     }
 
     @Override
+    public CronofyResponse<CreateCalendarResponse> createCalendar(final CreateCalendarRequest request) {
+        assertCronofyRequest(request);
+        final CronofyResponse<CreateCalendarResponse> response = new CronofyResponse<>();
+        final Response result = getClient()
+                .target(BASE_PATH)
+                .path(API_VERSION)
+                .path(CALENDARS_PATH)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE)
+                );
+        final int statusCode = result.getStatus();
+        processStatusCode(request, response, statusCode);
+        return response;
+    }
+
+    @Override
     public CronofyResponse<ReadEventsResponse> readEvents(final ReadEventsRequest request) {
         assertCronofyRequest(request);
         try {
@@ -442,6 +459,9 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 break;
             case 422:
                 response.setError(ErrorTypeModel.UNPROCESSABLE);
+                break;
+            case 423:
+                response.setError(ErrorTypeModel.LOCKED);
                 break;
             default:
                 LOGGER.error(UNKNOWN_STATUS_CODE_EXCEPTION_MSG, statusCode, request);
