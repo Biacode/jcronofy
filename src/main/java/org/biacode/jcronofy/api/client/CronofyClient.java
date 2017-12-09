@@ -76,6 +76,13 @@ public interface CronofyClient {
     CronofyResponse<DeleteEventResponse> deleteEvent(final DeleteEventRequest request);
 
     /**
+     *
+     * @param request the request
+     * @return the cronofy response
+     */
+    CronofyResponse<BulkDeleteEventsResponse> bulkDeleteEvents(final BulkDeleteEventsRequest request);
+
+    /**
      * Create notification channel.
      *
      * @param request the request

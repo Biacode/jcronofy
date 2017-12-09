@@ -299,6 +299,24 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     }
 
     @Override
+    public CronofyResponse<BulkDeleteEventsResponse> bulkDeleteEvents(final BulkDeleteEventsRequest request) {
+        assertCronofyRequest(request);
+        final CronofyResponse<BulkDeleteEventsResponse> response = new CronofyResponse<>();
+        final Response result = getClient()
+                .target(BASE_PATH)
+                .path(API_VERSION)
+                .path(EVENTS_PATH)
+                .queryParam("delete_all", request.getDeleteAll())
+                .queryParam("calendar_ids", request.getCalendarIds())
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                .delete();
+        final int statusCode = result.getStatus();
+        processStatusCode(request, response, statusCode);
+        return response;
+    }
+
+    @Override
     public CronofyResponse<CreateNotificationChannelResponse> createNotificationChannel(final CreateNotificationChannelRequest request) {
         assertCronofyRequest(request);
         try {

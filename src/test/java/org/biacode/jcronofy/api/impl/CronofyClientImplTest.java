@@ -1136,6 +1136,169 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
     }
     //endregion
 
+    //region bulkDeleteEvents
+
+    /**
+     * With invalid arguments
+     */
+    @Test
+    public void testBulkDeleteEventsScenario1() {
+        resetAll();
+        // test data
+        // expectations
+        replayAll();
+        try {
+            cronofyClient.bulkDeleteEvents(null);
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        try {
+            cronofyClient.bulkDeleteEvents(new BulkDeleteEventsRequest());
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        verifyAll();
+    }
+
+    /**
+     * General case
+     */
+    @Test
+    public void testBulkDeleteEventsScenario2() {
+        resetAll();
+        // test data
+        final BulkDeleteEventsRequest request = getHelper().getBulkDeleteEventsRequest();
+
+        final CronofyResponse<BulkDeleteEventsResponse> expectedResponse = new CronofyResponse<>(new BulkDeleteEventsResponse());
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.delete()).andReturn(Response.accepted().build());
+        replayAll();
+        final CronofyResponse<BulkDeleteEventsResponse> result = cronofyClient.bulkDeleteEvents(request);
+        assertNotNull(result);
+        assertFalse(result.hasError());
+        assertTrue(expectedResponse.getClass().isInstance(result));
+        verifyAll();
+    }
+
+    /**
+     * When not authorized
+     */
+    @Test
+    public void testBulkDeleteEventsScenario3() {
+        resetAll();
+        // test data
+        final BulkDeleteEventsRequest request = getHelper().getBulkDeleteEventsRequest();
+        final CronofyResponse<BulkDeleteEventsResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.NOT_AUTHORIZED
+        );
+        final Response expectedResult = Response.status(401).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.delete()).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<BulkDeleteEventsResponse> result = cronofyClient.bulkDeleteEvents(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When forbidden
+     */
+    @Test
+    public void testBulkDeleteEventsScenario4() {
+        resetAll();
+        // test data
+        final BulkDeleteEventsRequest request = getHelper().getBulkDeleteEventsRequest();
+        final CronofyResponse<BulkDeleteEventsResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.FORBIDDEN
+        );
+        final Response expectedResult = Response.status(403).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.delete()).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<BulkDeleteEventsResponse> result = cronofyClient.bulkDeleteEvents(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When un processable
+     */
+    @Test
+    public void testBulkDeleteEventsScenario6() {
+        resetAll();
+        // test data
+        final BulkDeleteEventsRequest request = getHelper().getBulkDeleteEventsRequest();
+        final CronofyResponse<BulkDeleteEventsResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.UNPROCESSABLE
+        );
+        final Response expectedResult = Response.status(422).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.delete()).andReturn(expectedResult);
+        replayAll();
+        final CronofyResponse<BulkDeleteEventsResponse> result = cronofyClient.bulkDeleteEvents(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When got unknown status code
+     */
+    @Test
+    public void testBulkDeleteEventsScenario7() {
+        resetAll();
+        // test data
+        final BulkDeleteEventsRequest request = getHelper().getBulkDeleteEventsRequest();
+        final Response expectedResult = Response.status(1024).build();
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(EVENTS)).andReturn(webTarget);
+        expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.delete()).andReturn(expectedResult);
+        replayAll();
+        try {
+            cronofyClient.bulkDeleteEvents(request);
+            fail("Exception should be thrown");
+        } catch (final UnknownStatusCodeException ignore) {
+            // Expected
+            assertNotNull(ignore);
+            assertEquals(request, ignore.getRequest());
+        }
+        verifyAll();
+    }
+    //endregion
+
     //region createNotificationChannel
 
     /**
