@@ -186,8 +186,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE)
                 );
-        final int statusCode = result.getStatus();
-        processStatusCode(request, response, statusCode);
+        processStatusCode(request, response, result.getStatus());
         return response;
     }
 
@@ -290,8 +289,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                 .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE)
                 );
-        final int statusCode = result.getStatus();
-        processStatusCode(request, response, statusCode);
+        processStatusCode(request, response, result.getStatus());
         return response;
     }
 
@@ -310,8 +308,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                 .delete();
-        final int statusCode = result.getStatus();
-        processStatusCode(request, response, statusCode);
+        processStatusCode(request, response, result.getStatus());
         return response;
     }
 

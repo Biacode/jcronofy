@@ -45,6 +45,7 @@ public interface CronofyClient {
 
     /**
      * Create calendar
+     *
      * @param request the request
      * @return the cronofy response
      */
