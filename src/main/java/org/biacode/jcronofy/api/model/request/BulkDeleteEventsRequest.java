@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * User: Syuzanna Eprikyan
- * Company: SFL LLC
  * Date: 12/9/2017
  * Time: 7:51 PM
  */
@@ -21,7 +20,7 @@ public class BulkDeleteEventsRequest extends AbstractAccessTokenAwareCronofyRequ
     @QueryParam("delete_all")
     private Boolean deleteAll;
 
-    @QueryParam(("calendar_ids"))
+    @QueryParam("calendar_ids")
     private List<String> calendarIds;
     //endregion
 

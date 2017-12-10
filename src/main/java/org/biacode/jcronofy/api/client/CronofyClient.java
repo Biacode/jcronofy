@@ -76,6 +76,7 @@ public interface CronofyClient {
     CronofyResponse<DeleteEventResponse> deleteEvent(final DeleteEventRequest request);
 
     /**
+     * Delete events that you are managing from the user's calendars in bulk.
      *
      * @param request the request
      * @return the cronofy response

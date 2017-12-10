@@ -1175,7 +1175,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.delete()).andReturn(Response.accepted().build());
@@ -1204,7 +1204,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.delete()).andReturn(expectedResult);
@@ -1231,7 +1231,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.delete()).andReturn(expectedResult);
@@ -1258,7 +1258,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.delete()).andReturn(expectedResult);
@@ -1282,7 +1282,7 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("delete_all", request.getDeleteAll())).andReturn(webTarget);
-        expect(webTarget.queryParam("calendar_ids", request.getCalendarIds())).andReturn(webTarget);
+        expect(webTarget.queryParam("calendar_ids[]", new String[0])).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.delete()).andReturn(expectedResult);

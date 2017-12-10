@@ -307,12 +307,11 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .path(API_VERSION)
                 .path(EVENTS_PATH)
                 .queryParam("delete_all", request.getDeleteAll())
-                .queryParam("calendar_ids", request.getCalendarIds())
+                .queryParam("calendar_ids[]", getCalendarIdsArray(request.getCalendarIds()))
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                 .delete();
-        final int statusCode = result.getStatus();
-        processStatusCode(request, response, statusCode);
+        processStatusCode(request, response, result.getStatus());
         return response;
     }
 
