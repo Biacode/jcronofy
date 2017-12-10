@@ -7,15 +7,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.io.Serializable;
-
 /**
  * User: Arthur Asatryan
  * Company: SFL LLC
  * Date: 10/4/16
  * Time: 3:55 PM
  */
-public class CronofyResponse<T extends AbstractCronofyResponse> implements Serializable {
+public class CronofyResponse<T extends AbstractCronofyResponse> {
     private static final long serialVersionUID = -679286511899959879L;
 
     //region Properties
