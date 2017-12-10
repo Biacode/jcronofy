@@ -6,4 +6,5 @@ directories:
 env:
 language: java
 jdk: oraclejdk8
-script: mvn clean install sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -P sonar
+#script: mvn clean install sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN -P sonar
+script: mvn clean install
