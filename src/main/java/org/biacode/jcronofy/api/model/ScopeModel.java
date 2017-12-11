@@ -15,7 +15,14 @@ public enum ScopeModel {
     CREATE_EVENT("create_event"),
     @JsonProperty("delete_event")
     DELETE_EVENT("delete_event"),
-    READ_FREE_BUSY("read_free_busy");
+    @JsonProperty("read_free_busy")
+    READ_FREE_BUSY("read_free_busy"),
+    @JsonProperty("create_calendar")
+    CREATE_CALENDAR("create_calendar"),
+    @JsonProperty("event_reminders")
+    EVENT_REMINDERS("event_reminders"),
+    @JsonProperty("change_participation_status")
+    CHANGE_PARTICIPATION_STATUS("change_participation_status");
 
     final String scope;
 
