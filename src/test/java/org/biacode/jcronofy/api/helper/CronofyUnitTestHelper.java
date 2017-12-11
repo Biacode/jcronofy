@@ -228,6 +228,13 @@ public final class CronofyUnitTestHelper {
         );
     }
 
+    public BulkDeleteEventsRequest getBulkDeleteEventsRequest() {
+        return new BulkDeleteEventsRequest(
+                UUID.randomUUID().toString(),
+                false
+        );
+    }
+
     public CreateNotificationChannelRequest getCreateNotificationChannelRequest() {
         return new CreateNotificationChannelRequest(
                 UUID.randomUUID().toString(),
