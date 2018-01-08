@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 /**
  * User: Syuzanna Eprikyan
- * Company: SFL LLC
  * Date: 1/8/18
  * Time: 4:13 PM
  */

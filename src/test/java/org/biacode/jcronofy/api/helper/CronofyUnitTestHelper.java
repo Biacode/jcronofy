@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/6/16
  * Time: 12:12 PM
  */

@@ -12,7 +12,6 @@ import static org.junit.Assert.assertNotNull;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/6/16
  * Time: 3:14 PM
  */

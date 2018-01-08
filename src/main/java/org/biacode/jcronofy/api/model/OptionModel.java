@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/5/16
  * Time: 5:25 PM
  */
