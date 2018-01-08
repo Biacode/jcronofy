@@ -11,7 +11,6 @@ import java.util.Date;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/4/16
  * Time: 6:38 PM
  */

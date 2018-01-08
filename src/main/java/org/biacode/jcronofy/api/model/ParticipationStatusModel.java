@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/4/16
  * Time: 6:11 PM
  */

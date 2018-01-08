@@ -4,7 +4,6 @@ import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequ
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/4/16
  * Time: 9:37 PM
  */

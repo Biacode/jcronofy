@@ -8,12 +8,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.io.Serializable;
 
 /**
- * User: Arthur Asatryan
- * Date: 10/4/16
- * Time: 6:21 PM
+ * User: Syuzanna Eprikyan
+ * Date: 1/8/18
+ * Time: 4:13 PM
  */
-public class AttendeesModel implements Serializable {
-    private static final long serialVersionUID = 7074092078187307730L;
+public class OrganizerModel implements Serializable {
+    private static final long serialVersionUID = 8221314847860060536L;
 
     //region Properties
     @JsonProperty("email")
@@ -21,21 +21,15 @@ public class AttendeesModel implements Serializable {
 
     @JsonProperty("display_name")
     private String displayName;
-
-    @JsonProperty("status")
-    private ParticipationStatusModel status;
     //endregion
 
     //region Constructors
-    public AttendeesModel() {
+    public OrganizerModel() {
     }
 
-    public AttendeesModel(final String email,
-                          final String displayName,
-                          final ParticipationStatusModel status) {
+    public OrganizerModel(final String email, final String displayName) {
         this.email = email;
         this.displayName = displayName;
-        this.status = status;
     }
     //endregion
 
@@ -45,14 +39,13 @@ public class AttendeesModel implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof AttendeesModel)) {
+        if (!(o instanceof OrganizerModel)) {
             return false;
         }
-        final AttendeesModel that = (AttendeesModel) o;
+        final OrganizerModel that = (OrganizerModel) o;
         return new EqualsBuilder()
                 .append(email, that.email)
                 .append(displayName, that.displayName)
-                .append(status, that.status)
                 .isEquals();
     }
 
@@ -61,16 +54,15 @@ public class AttendeesModel implements Serializable {
         return new HashCodeBuilder()
                 .append(email)
                 .append(displayName)
-                .append(status)
                 .toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .appendSuper(super.toString())
                 .append("email", email)
                 .append("displayName", displayName)
-                .append("status", status)
                 .toString();
     }
     //endregion
@@ -90,14 +82,6 @@ public class AttendeesModel implements Serializable {
 
     public void setDisplayName(final String displayName) {
         this.displayName = displayName;
-    }
-
-    public ParticipationStatusModel getStatus() {
-        return status;
-    }
-
-    public void setStatus(final ParticipationStatusModel status) {
-        this.status = status;
     }
     //endregion
 }

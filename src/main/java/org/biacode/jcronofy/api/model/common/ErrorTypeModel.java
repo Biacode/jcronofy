@@ -2,7 +2,6 @@ package org.biacode.jcronofy.api.model.common;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/6/16
  * Time: 3:28 PM
  */

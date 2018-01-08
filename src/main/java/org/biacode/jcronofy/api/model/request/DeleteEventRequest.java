@@ -9,7 +9,6 @@ import javax.ws.rs.QueryParam;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/4/16
  * Time: 4:57 PM
  */

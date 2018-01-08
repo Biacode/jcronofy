@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/5/16
  * Time: 11:44 AM
  */

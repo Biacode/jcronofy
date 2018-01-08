@@ -10,7 +10,6 @@ import javax.ws.rs.client.ClientBuilder;
 
 /**
  * User: Arthur Asatryan
- * Company: SFL LLC
  * Date: 10/5/16
  * Time: 11:36 AM
  */
