@@ -52,6 +52,9 @@ public class EventModel implements Serializable {
     @JsonProperty("participation_status")
     private ParticipationStatusModel participationStatus;
 
+    @JsonProperty("organizer")
+    private OrganizerModel organizer;
+
     @JsonProperty("transparency")
     private TransparencyModel transparency;
 
@@ -94,6 +97,7 @@ public class EventModel implements Serializable {
                       final EventLocationModel location,
                       final String eventId,
                       final ParticipationStatusModel participationStatus,
+                      final OrganizerModel organizer,
                       final TransparencyModel transparency,
                       final EventStatusModel status,
                       final List<String> categories,
@@ -113,6 +117,7 @@ public class EventModel implements Serializable {
         this.location = location;
         this.eventId = eventId;
         this.participationStatus = participationStatus;
+        this.organizer = organizer;
         this.transparency = transparency;
         this.status = status;
         this.categories = categories;
@@ -137,6 +142,7 @@ public class EventModel implements Serializable {
         final EventModel that = (EventModel) o;
         return new EqualsBuilder()
                 .append(deleted, that.deleted)
+                .append(recurring, that.recurring)
                 .append(calendarId, that.calendarId)
                 .append(eventUid, that.eventUid)
                 .append(summary, that.summary)
@@ -146,13 +152,13 @@ public class EventModel implements Serializable {
                 .append(location, that.location)
                 .append(eventId, that.eventId)
                 .append(participationStatus, that.participationStatus)
+                .append(organizer, that.organizer)
                 .append(transparency, that.transparency)
                 .append(status, that.status)
                 .append(categories, that.categories)
                 .append(attendees, that.attendees)
                 .append(created, that.created)
                 .append(updated, that.updated)
-                .append(recurring, that.recurring)
                 .append(options, that.options)
                 .append(actions, that.actions)
                 .isEquals();
@@ -171,6 +177,7 @@ public class EventModel implements Serializable {
                 .append(location)
                 .append(eventId)
                 .append(participationStatus)
+                .append(organizer)
                 .append(transparency)
                 .append(status)
                 .append(categories)
@@ -186,6 +193,7 @@ public class EventModel implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .appendSuper(super.toString())
                 .append("calendarId", calendarId)
                 .append("eventUid", eventUid)
                 .append("summary", summary)
@@ -196,6 +204,7 @@ public class EventModel implements Serializable {
                 .append("location", location)
                 .append("eventId", eventId)
                 .append("participationStatus", participationStatus)
+                .append("organizer", organizer)
                 .append("transparency", transparency)
                 .append("status", status)
                 .append("categories", categories)
@@ -360,6 +369,14 @@ public class EventModel implements Serializable {
 
     public void setActions(final ActionsModel actions) {
         this.actions = actions;
+    }
+
+    public OrganizerModel getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(final OrganizerModel organizer) {
+        this.organizer = organizer;
     }
     //endregion
 

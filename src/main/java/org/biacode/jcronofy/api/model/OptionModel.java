@@ -24,15 +24,19 @@ public class OptionModel implements Serializable {
 
     @JsonProperty("update")
     private boolean update;
+
+    @JsonProperty("change_participation_status")
+    private boolean changeParticipationStatus;
     //endregion
 
     //region Constructors
     public OptionModel() {
     }
 
-    public OptionModel(final boolean delete, final boolean update) {
+    public OptionModel(final boolean delete, final boolean update, final boolean changeParticipationStatus) {
         this.delete = delete;
         this.update = update;
+        this.changeParticipationStatus = changeParticipationStatus;
     }
     //endregion
 
@@ -49,6 +53,7 @@ public class OptionModel implements Serializable {
         return new EqualsBuilder()
                 .append(delete, that.delete)
                 .append(update, that.update)
+                .append(changeParticipationStatus, that.changeParticipationStatus)
                 .isEquals();
     }
 
@@ -57,14 +62,17 @@ public class OptionModel implements Serializable {
         return new HashCodeBuilder()
                 .append(delete)
                 .append(update)
+                .append(changeParticipationStatus)
                 .toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
+                .appendSuper(super.toString())
                 .append("delete", delete)
                 .append("update", update)
+                .append("changeParticipationStatus", changeParticipationStatus)
                 .toString();
     }
     //endregion
@@ -84,6 +92,14 @@ public class OptionModel implements Serializable {
 
     public void setUpdate(final boolean update) {
         this.update = update;
+    }
+
+    public boolean isChangeParticipationStatus() {
+        return changeParticipationStatus;
+    }
+
+    public void setChangeParticipationStatus(final boolean changeParticipationStatus) {
+        this.changeParticipationStatus = changeParticipationStatus;
     }
     //endregion
 }

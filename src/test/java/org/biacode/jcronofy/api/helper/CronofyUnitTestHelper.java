@@ -72,6 +72,7 @@ public final class CronofyUnitTestHelper {
                 buildEventLocationModel(),
                 UUID.randomUUID().toString(),
                 ParticipationStatusModel.ACCEPTED,
+                buildOrganizerModel(),
                 TransparencyModel.OPAQUE,
                 EventStatusModel.CANCELLED,
                 new ArrayList<>(Arrays.asList(UUID.randomUUID().toString(), UUID.randomUUID().toString())),
@@ -89,7 +90,11 @@ public final class CronofyUnitTestHelper {
     }
 
     private EventLocationModel buildEventLocationModel() {
-        return new EventLocationModel(UUID.randomUUID().toString());
+        return new EventLocationModel(UUID.randomUUID().toString(), UUID.randomUUID().toString(), UUID.randomUUID().toString());
+    }
+
+    private OrganizerModel buildOrganizerModel() {
+        return new OrganizerModel(UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
     private AttendeesModel buildAttendeesModel() {
@@ -97,7 +102,7 @@ public final class CronofyUnitTestHelper {
     }
 
     private OptionModel buildOptionModel() {
-        return new OptionModel(false, true);
+        return new OptionModel(false, true, false);
     }
 
     public FreeBusyModel buildFreeBusyModel() {
