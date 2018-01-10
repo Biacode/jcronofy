@@ -30,6 +30,10 @@ public class EventLocationModel implements Serializable {
     public EventLocationModel() {
     }
 
+    public EventLocationModel(final String description) {
+        this.description = description;
+    }
+
     public EventLocationModel(final String description, final String latitude, final String longitude) {
         this.description = description;
         this.latitude = latitude;
