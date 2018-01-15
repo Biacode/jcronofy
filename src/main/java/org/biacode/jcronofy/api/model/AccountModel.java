@@ -32,7 +32,7 @@ public class AccountModel implements Serializable {
     private AccountTypeModel type;
 
     @JsonProperty("scope")
-    private ScopeModel scope;
+    private String scope;
     //endregion
 
     //region Constructors
@@ -44,7 +44,7 @@ public class AccountModel implements Serializable {
                         final String name,
                         final String defaultTzId,
                         final AccountTypeModel type,
-                        final ScopeModel scope) {
+                        final String scope) {
         this.accountId = accountId;
         this.email = email;
         this.name = name;
@@ -140,11 +140,11 @@ public class AccountModel implements Serializable {
         this.type = type;
     }
 
-    public ScopeModel getScope() {
+    public String getScope() {
         return scope;
     }
 
-    public void setScope(final ScopeModel scope) {
+    public void setScope(final String scope) {
         this.scope = scope;
     }
     //endregion

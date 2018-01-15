@@ -135,7 +135,7 @@ public final class CronofyUnitTestHelper {
                 UUID.randomUUID().toString(),
                 UUID.randomUUID().toString(),
                 AccountTypeModel.ACCOUNT,
-                ScopeModel.CREATE_EVENT
+                UUID.randomUUID().toString()
         );
     }
 
