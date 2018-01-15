@@ -129,4 +129,11 @@ public interface CronofyClient {
      * @return the cronofy response
      */
     CronofyResponse<ProfileInformationResponse> profileInfo(final ProfileInformationRequest request);
+
+    /**
+     *
+     * @param request the request
+     * @return the cronofy response
+     */
+    CronofyResponse<AvailabilityResponse> availability(final AvailabilityRequest request);
 }
