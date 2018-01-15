@@ -43,6 +43,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     private static final String CHANNELS_PATH = "channels";
 
+    private static final String USER_PATH = "userinfo";
+
     private static final String PROFILES_PATH = "profiles";
 
     private static final String ACCOUNT_PATH = "account";
@@ -396,6 +398,24 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 throw new UnknownStatusCodeException("Got an unknown status code - " + statusCode + " while processing request.", request);
         }
         return response;
+    }
+
+    @Override
+    public CronofyResponse<UserInfoResponse> userInfo(final UserInfoRequest request) {
+        assertCronofyRequest(request);
+        try {
+            return getClient()
+                    .target(BASE_PATH)
+                    .path(API_VERSION)
+                    .path(USER_PATH)
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                    .get(new GenericType<CronofyResponse<UserInfoResponse>>() {
+                    });
+        } catch (final NotAuthorizedException ignore) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        }
     }
 
     @Override
