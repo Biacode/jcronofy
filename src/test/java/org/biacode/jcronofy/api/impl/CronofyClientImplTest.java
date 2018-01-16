@@ -54,6 +54,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
 
     private static final String ACCOUNT_PATH = "account";
 
+    private static final String USER_PATH = "userinfo";
+
     private static final String EVENTS = "events";
     //endregion
 
@@ -1855,6 +1857,75 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(client.target(BASE_PATH)).andThrow(new NotAuthorizedException(new CronofyResponse<>()));
         replayAll();
         final CronofyResponse<ProfileInformationResponse> result = cronofyClient.profileInfo(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+    //endregion
+
+    //region userinfo
+
+    /**
+     * With invalid arguments
+     */
+    @Test
+    public void testUserInfoScenario1() {
+        resetAll();
+        // test data
+        // expectations
+        replayAll();
+        try {
+            cronofyClient.userInfo(null);
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        try {
+            cronofyClient.userInfo(new UserInfoRequest());
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        verifyAll();
+    }
+
+    /**
+     * General case
+     */
+    @Test
+    public void testUserInfoScenario2() {
+        resetAll();
+        // test data
+        final UserInfoRequest request = getHelper().getUserInfoRequest();
+        final CronofyResponse<UserInfoResponse> expectedResponse = new CronofyResponse<>(
+                new UserInfoResponse(getHelper().buildUserModel())
+        );
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(USER_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.get(new GenericType<CronofyResponse<UserInfoResponse>>() {
+        })).andReturn(expectedResponse);
+        replayAll();
+        final CronofyResponse<UserInfoResponse> result = cronofyClient.userInfo(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When not authorized exception has been thrown
+     */
+    @Test
+    public void testUserInfoScenario3() {
+        resetAll();
+        // test data
+        final UserInfoRequest request = getHelper().getUserInfoRequest();
+        final CronofyResponse<UserInfoResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.NOT_AUTHORIZED
+        );
+        // expectations
+        expect(client.target(BASE_PATH)).andThrow(new NotAuthorizedException(new CronofyResponse<>()));
+        replayAll();
+        final CronofyResponse<UserInfoResponse> result = cronofyClient.userInfo(request);
         getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }

@@ -139,6 +139,10 @@ public final class CronofyUnitTestHelper {
         );
     }
 
+    public UserModel buildUserModel() {
+        return new UserModel(UUID.randomUUID().toString(), UUID.randomUUID().toString());
+    }
+
     public ProfileModel buildProfileModel() {
         return new ProfileModel(
                 ProviderNameModel.GOOGLE,
@@ -261,6 +265,10 @@ public final class CronofyUnitTestHelper {
 
     public AccountInfoRequest getAccountInfoRequest() {
         return new AccountInfoRequest(UUID.randomUUID().toString());
+    }
+
+    public UserInfoRequest getUserInfoRequest() {
+        return new UserInfoRequest(UUID.randomUUID().toString());
     }
 
     public ProfileInformationRequest getProfileInformationRequest() {
