@@ -21,7 +21,9 @@ public enum ScopeModel {
     @JsonProperty("event_reminders")
     EVENT_REMINDERS("event_reminders"),
     @JsonProperty("change_participation_status")
-    CHANGE_PARTICIPATION_STATUS("change_participation_status");
+    CHANGE_PARTICIPATION_STATUS("change_participation_status"),
+    @JsonProperty("full_access")
+    FULL_ACCESS("full_access");
 
     final String scope;
 
