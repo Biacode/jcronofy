@@ -135,8 +135,12 @@ public final class CronofyUnitTestHelper {
                 UUID.randomUUID().toString(),
                 UUID.randomUUID().toString(),
                 AccountTypeModel.ACCOUNT,
-                ScopeModel.CREATE_EVENT
+                UUID.randomUUID().toString()
         );
+    }
+
+    public UserModel buildUserModel() {
+        return new UserModel(UUID.randomUUID().toString(), UUID.randomUUID().toString());
     }
 
     public ProfileModel buildProfileModel() {
@@ -261,6 +265,10 @@ public final class CronofyUnitTestHelper {
 
     public AccountInfoRequest getAccountInfoRequest() {
         return new AccountInfoRequest(UUID.randomUUID().toString());
+    }
+
+    public UserInfoRequest getUserInfoRequest() {
+        return new UserInfoRequest(UUID.randomUUID().toString());
     }
 
     public ProfileInformationRequest getProfileInformationRequest() {
