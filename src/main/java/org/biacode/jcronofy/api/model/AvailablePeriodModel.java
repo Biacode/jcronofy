@@ -1,13 +1,11 @@
 package org.biacode.jcronofy.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * User: Syuzanna Eprikyan
@@ -20,10 +18,10 @@ public class AvailablePeriodModel implements Serializable {
 
     //region Properties
     @JsonProperty("start")
-    private Date start;
+    private String start;
 
     @JsonProperty("end")
-    private Date end;
+    private String end;
 
     @JsonProperty("participants")
     private ParticipantModel[] participants;
@@ -34,14 +32,14 @@ public class AvailablePeriodModel implements Serializable {
         // default constructor
     }
 
-    public AvailablePeriodModel(final Date start, final Date end) {
+    public AvailablePeriodModel(final String start, final String end) {
         this.start = start;
         this.end = end;
     }
 
-    public AvailablePeriodModel(final Date start, final Date end, final ParticipantModel[] participants) {
-        this.start = ObjectUtils.clone(start);
-        this.end = ObjectUtils.clone(end);
+    public AvailablePeriodModel(final String start, final String end, final ParticipantModel[] participants) {
+        this.start = start;
+        this.end = end;
         this.participants = participants;
     }
     //endregion
@@ -84,20 +82,20 @@ public class AvailablePeriodModel implements Serializable {
     //endregion
 
     //region Properties getters and setters
-    public Date getStart() {
-        return ObjectUtils.clone(start);
+    public String getStart() {
+        return start;
     }
 
-    public void setStart(final Date start) {
-        this.start = ObjectUtils.clone(start);
+    public void setStart(final String start) {
+        this.start = start;
     }
 
-    public Date getEnd() {
-        return ObjectUtils.clone(end);
+    public String getEnd() {
+        return end;
     }
 
-    public void setEnd(final Date end) {
-        this.end = ObjectUtils.clone(end);
+    public void setEnd(final String end) {
+        this.end = end;
     }
 
     public ParticipantModel[] getParticipants() {

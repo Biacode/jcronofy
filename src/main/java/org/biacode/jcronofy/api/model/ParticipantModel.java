@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * User: Syuzanna Eprikyan
@@ -18,10 +19,13 @@ public class ParticipantModel implements Serializable {
 
     //region Properties
     @JsonProperty("members")
-    private MemberModel[] members;
+    private List<MemberModel> members;
 
     @JsonProperty("required")
     private Object required;
+
+    @JsonProperty("sub")
+    private String sub;
     //endregion
 
     //region Constructors
@@ -29,7 +33,11 @@ public class ParticipantModel implements Serializable {
         // default constructor
     }
 
-    public ParticipantModel(final MemberModel[] members, final Object required) {
+    public ParticipantModel(final String sub) {
+        this.sub = sub;
+    }
+
+    public ParticipantModel(final List<MemberModel> members, final Object required) {
         this.members = members;
         this.required = required;
     }
@@ -48,6 +56,7 @@ public class ParticipantModel implements Serializable {
         return new EqualsBuilder()
                 .append(members, that.members)
                 .append(required, that.required)
+                .append(sub, that.sub)
                 .isEquals();
     }
 
@@ -56,6 +65,7 @@ public class ParticipantModel implements Serializable {
         return new HashCodeBuilder()
                 .append(members)
                 .append(required)
+                .append(sub)
                 .toHashCode();
     }
 
@@ -65,16 +75,17 @@ public class ParticipantModel implements Serializable {
                 .appendSuper(super.toString())
                 .append("members", members)
                 .append("required", required)
+                .append("sub", sub)
                 .toString();
     }
     //endregion
 
     //region Properties getters and setters
-    public MemberModel[] getMembers() {
+    public List<MemberModel> getMembers() {
         return members;
     }
 
-    public void setMembers(final MemberModel[] members) {
+    public void setMembers(final List<MemberModel> members) {
         this.members = members;
     }
 
@@ -84,6 +95,14 @@ public class ParticipantModel implements Serializable {
 
     public void setRequired(final Object required) {
         this.required = required;
+    }
+
+    public String getSub() {
+        return sub;
+    }
+
+    public void setSub(final String sub) {
+        this.sub = sub;
     }
     //endregion
 }

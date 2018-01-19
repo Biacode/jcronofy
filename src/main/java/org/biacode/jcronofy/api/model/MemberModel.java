@@ -1,11 +1,13 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * User: Syuzanna Eprikyan
@@ -13,6 +15,7 @@ import java.io.Serializable;
  * Date: 1/12/18
  * Time: 5:07 PM
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberModel implements Serializable {
     private static final long serialVersionUID = -2553825956881477678L;
 
@@ -21,7 +24,7 @@ public class MemberModel implements Serializable {
     private String sub;
 
     @JsonProperty("available_periods")
-    private AvailablePeriodModel[] availablePeriods;
+    private List<AvailablePeriodModel> availablePeriods;
 
     @JsonProperty("calendar_ids")
     private String[] calendarIds;
@@ -36,16 +39,18 @@ public class MemberModel implements Serializable {
         this.sub = sub;
     }
 
-    public MemberModel(final AvailablePeriodModel[] availablePeriods) {
-        this.availablePeriods = availablePeriods;
-    }
-
-    public MemberModel(final String sub, final AvailablePeriodModel[] availablePeriods) {
+    public MemberModel(final String sub, final List<AvailablePeriodModel> availablePeriods) {
         this.sub = sub;
         this.availablePeriods = availablePeriods;
     }
 
-    public MemberModel(final AvailablePeriodModel[] availablePeriods, final String[] calendarIds) {
+    public MemberModel(final String sub, final String[] calendarIds) {
+        this.sub = sub;
+        this.calendarIds = calendarIds;
+    }
+
+    public MemberModel(final String sub, final List<AvailablePeriodModel> availablePeriods, final String[] calendarIds) {
+        this.sub = sub;
         this.availablePeriods = availablePeriods;
         this.calendarIds = calendarIds;
     }
@@ -97,11 +102,11 @@ public class MemberModel implements Serializable {
         this.sub = sub;
     }
 
-    public AvailablePeriodModel[] getAvailablePeriods() {
+    public List<AvailablePeriodModel> getAvailablePeriods() {
         return availablePeriods;
     }
 
-    public void setAvailablePeriods(final AvailablePeriodModel[] availablePeriods) {
+    public void setAvailablePeriods(final List<AvailablePeriodModel> availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
 

@@ -9,6 +9,8 @@ import org.biacode.jcronofy.api.model.ParticipantModel;
 import org.biacode.jcronofy.api.model.RequiredDurationModel;
 import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
 
+import java.util.List;
+
 /**
  * User: Syuzanna Eprikyan
  * Company: SFL LLC
@@ -20,25 +22,25 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
 
     //region Properties
     @JsonProperty("participants")
-    private ParticipantModel[] participants;
+    private List<ParticipantModel> participants;
 
     @JsonProperty("required_duration")
     private RequiredDurationModel requiredDuration;
 
     @JsonProperty("available_periods")
-    private AvailablePeriodModel[] availablePeriods;
+    private List<AvailablePeriodModel> availablePeriods;
     //endregion
 
     //region Constructors
     public AvailabilityRequest() {
     }
 
-    public AvailabilityRequest(final String accessToken, final ParticipantModel[] participants) {
+    public AvailabilityRequest(final String accessToken, final List<ParticipantModel> participants) {
         super(accessToken);
         this.participants = participants;
     }
 
-    public AvailabilityRequest(final String accessToken, final ParticipantModel[] participants, final RequiredDurationModel requiredDuration, final AvailablePeriodModel[] availablePeriods) {
+    public AvailabilityRequest(final String accessToken, final List<ParticipantModel> participants, final RequiredDurationModel requiredDuration, final List<AvailablePeriodModel> availablePeriods) {
         super(accessToken);
         this.participants = participants;
         this.requiredDuration = requiredDuration;
@@ -86,14 +88,6 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
     //endregion
 
     //region Properties getters and setters
-    public ParticipantModel[] getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(final ParticipantModel[] participants) {
-        this.participants = participants;
-    }
-
     public RequiredDurationModel getRequiredDuration() {
         return requiredDuration;
     }
@@ -102,11 +96,15 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
         this.requiredDuration = requiredDuration;
     }
 
-    public AvailablePeriodModel[] getAvailablePeriods() {
+    public void setParticipants(final List<ParticipantModel> participants) {
+        this.participants = participants;
+    }
+
+    public List<AvailablePeriodModel> getAvailablePeriods() {
         return availablePeriods;
     }
 
-    public void setAvailablePeriods(final AvailablePeriodModel[] availablePeriods) {
+    public void setAvailablePeriods(final List<AvailablePeriodModel> availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
     //endregion
