@@ -1,6 +1,5 @@
 package org.biacode.jcronofy.api.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -21,11 +20,9 @@ public class AvailablePeriodModel implements Serializable {
 
     //region Properties
     @JsonProperty("start")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "GMT")
     private Date start;
 
     @JsonProperty("end")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ssZ", timezone = "GMT")
     private Date end;
 
     @JsonProperty("participants")
@@ -35,6 +32,11 @@ public class AvailablePeriodModel implements Serializable {
     //region Constructors
     public AvailablePeriodModel() {
         // default constructor
+    }
+
+    public AvailablePeriodModel(final Date start, final Date end) {
+        this.start = start;
+        this.end = end;
     }
 
     public AvailablePeriodModel(final Date start, final Date end, final ParticipantModel[] participants) {

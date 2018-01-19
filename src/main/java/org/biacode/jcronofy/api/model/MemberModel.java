@@ -6,7 +6,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * User: Syuzanna Eprikyan
@@ -22,7 +21,7 @@ public class MemberModel implements Serializable {
     private String sub;
 
     @JsonProperty("available_periods")
-    private List<AvailablePeriodModel> availablePeriods;
+    private AvailablePeriodModel[] availablePeriods;
 
     @JsonProperty("calendar_ids")
     private String[] calendarIds;
@@ -37,11 +36,16 @@ public class MemberModel implements Serializable {
         this.sub = sub;
     }
 
-    public MemberModel(final List<AvailablePeriodModel> availablePeriods) {
+    public MemberModel(final AvailablePeriodModel[] availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
 
-    public MemberModel(final List<AvailablePeriodModel> availablePeriods, final String[] calendarIds) {
+    public MemberModel(final String sub, final AvailablePeriodModel[] availablePeriods) {
+        this.sub = sub;
+        this.availablePeriods = availablePeriods;
+    }
+
+    public MemberModel(final AvailablePeriodModel[] availablePeriods, final String[] calendarIds) {
         this.availablePeriods = availablePeriods;
         this.calendarIds = calendarIds;
     }
@@ -93,11 +97,11 @@ public class MemberModel implements Serializable {
         this.sub = sub;
     }
 
-    public List<AvailablePeriodModel> getAvailablePeriods() {
+    public AvailablePeriodModel[] getAvailablePeriods() {
         return availablePeriods;
     }
 
-    public void setAvailablePeriods(final List<AvailablePeriodModel> availablePeriods) {
+    public void setAvailablePeriods(final AvailablePeriodModel[] availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
 

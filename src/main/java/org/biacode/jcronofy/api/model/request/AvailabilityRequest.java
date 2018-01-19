@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.biacode.jcronofy.api.model.AvailablePeriodModel;
 import org.biacode.jcronofy.api.model.ParticipantModel;
+import org.biacode.jcronofy.api.model.RequiredDurationModel;
 import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
 
 /**
@@ -20,6 +22,11 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
     @JsonProperty("participants")
     private ParticipantModel[] participants;
 
+    @JsonProperty("required_duration")
+    private RequiredDurationModel requiredDuration;
+
+    @JsonProperty("available_periods")
+    private AvailablePeriodModel[] availablePeriods;
     //endregion
 
     //region Constructors
@@ -29,6 +36,13 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
     public AvailabilityRequest(final String accessToken, final ParticipantModel[] participants) {
         super(accessToken);
         this.participants = participants;
+    }
+
+    public AvailabilityRequest(final String accessToken, final ParticipantModel[] participants, final RequiredDurationModel requiredDuration, final AvailablePeriodModel[] availablePeriods) {
+        super(accessToken);
+        this.participants = participants;
+        this.requiredDuration = requiredDuration;
+        this.availablePeriods = availablePeriods;
     }
     //endregion
 
@@ -45,6 +59,8 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
         return new EqualsBuilder()
                 .appendSuper(super.equals(o))
                 .append(participants, that.participants)
+                .append(requiredDuration, that.requiredDuration)
+                .append(availablePeriods, that.availablePeriods)
                 .isEquals();
     }
 
@@ -53,6 +69,8 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
         return new HashCodeBuilder()
                 .appendSuper(super.hashCode())
                 .append(participants)
+                .append(requiredDuration)
+                .append(availablePeriods)
                 .toHashCode();
     }
 
@@ -61,6 +79,8 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
         return new ToStringBuilder(this)
                 .appendSuper(super.toString())
                 .append("participants", participants)
+                .append("requiredDuration", requiredDuration)
+                .append("availablePeriods", availablePeriods)
                 .toString();
     }
     //endregion
@@ -72,6 +92,22 @@ public class AvailabilityRequest extends AbstractAccessTokenAwareCronofyRequest 
 
     public void setParticipants(final ParticipantModel[] participants) {
         this.participants = participants;
+    }
+
+    public RequiredDurationModel getRequiredDuration() {
+        return requiredDuration;
+    }
+
+    public void setRequiredDuration(final RequiredDurationModel requiredDuration) {
+        this.requiredDuration = requiredDuration;
+    }
+
+    public AvailablePeriodModel[] getAvailablePeriods() {
+        return availablePeriods;
+    }
+
+    public void setAvailablePeriods(final AvailablePeriodModel[] availablePeriods) {
+        this.availablePeriods = availablePeriods;
     }
     //endregion
 }
