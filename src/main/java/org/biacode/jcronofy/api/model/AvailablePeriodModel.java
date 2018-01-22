@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * User: Syuzanna Eprikyan
@@ -24,7 +25,7 @@ public class AvailablePeriodModel implements Serializable {
     private String end;
 
     @JsonProperty("participants")
-    private ParticipantModel[] participants;
+    private List<ParticipantModel> participants;
     //endregion
 
     //region Constructors
@@ -37,7 +38,7 @@ public class AvailablePeriodModel implements Serializable {
         this.end = end;
     }
 
-    public AvailablePeriodModel(final String start, final String end, final ParticipantModel[] participants) {
+    public AvailablePeriodModel(final String start, final String end, final List<ParticipantModel> participants) {
         this.start = start;
         this.end = end;
         this.participants = participants;
@@ -98,11 +99,11 @@ public class AvailablePeriodModel implements Serializable {
         this.end = end;
     }
 
-    public ParticipantModel[] getParticipants() {
+    public List<ParticipantModel> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(final ParticipantModel[] participants) {
+    public void setParticipants(final List<ParticipantModel> participants) {
         this.participants = participants;
     }
     //endregion

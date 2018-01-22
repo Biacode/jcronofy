@@ -472,6 +472,9 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         } catch (final NotAuthorizedException ignore) {
             LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        } catch (final ClientErrorException ignore) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+            return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
     //endregion

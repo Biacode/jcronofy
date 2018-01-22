@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.biacode.jcronofy.api.model.AvailablePeriodModel;
 import org.biacode.jcronofy.api.model.common.AbstractCronofyResponse;
 
+import java.util.List;
+
 /**
  * User: Syuzanna Eprikyan
  * Company: SFL LLC
@@ -18,7 +20,7 @@ public class AvailabilityResponse extends AbstractCronofyResponse {
 
     //region Properties
     @JsonProperty("available_periods")
-    private AvailablePeriodModel[] availablePeriods;
+    private List<AvailablePeriodModel> availablePeriods;
     //endregion
 
     //region Constructors
@@ -26,7 +28,7 @@ public class AvailabilityResponse extends AbstractCronofyResponse {
         // default constructor
     }
 
-    public AvailabilityResponse(final AvailablePeriodModel[] availablePeriods) {
+    public AvailabilityResponse(final List<AvailablePeriodModel> availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
     //endregion
@@ -63,11 +65,11 @@ public class AvailabilityResponse extends AbstractCronofyResponse {
     //endregion
 
     //region Properties getters and setters
-    public AvailablePeriodModel[] getAvailablePeriods() {
+    public List<AvailablePeriodModel> getAvailablePeriods() {
         return availablePeriods;
     }
 
-    public void setAvailablePeriods(final AvailablePeriodModel[] availablePeriods) {
+    public void setAvailablePeriods(final List<AvailablePeriodModel> availablePeriods) {
         this.availablePeriods = availablePeriods;
     }
     //endregion
