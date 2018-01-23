@@ -22,7 +22,6 @@ import java.util.List;
 
 /**
  * User: Syuzanna Eprikyan
- * Company: SFL LLC
  * Date: 1/12/18
  * Time: 6:22 PM
  */

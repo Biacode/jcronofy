@@ -9,7 +9,6 @@ import org.biacode.jcronofy.api.model.common.AbstractCronofyResponse;
 
 /**
  * User: Syuzanna Eprikyan
- * Company: SFL LLC
  * Date: 1/15/18
  * Time: 3:23 PM
  */
