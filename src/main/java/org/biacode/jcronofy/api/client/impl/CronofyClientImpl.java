@@ -51,6 +51,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     private static final String EVENTS_PATH = "events";
 
+    private static final String AVAILABILITY_PATH = "availability";
+
     private static final String OAUTH_PATH = "oauth";
 
     private static final String TOKEN_PAH = "token";
@@ -451,6 +453,28 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         } catch (final NotAuthorizedException ignore) {
             LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        }
+    }
+
+    @Override
+    public CronofyResponse<AvailabilityResponse> availability(final AvailabilityRequest request) {
+        assertCronofyRequest(request);
+        try {
+            return getClient()
+                    .target(BASE_PATH)
+                    .path(API_VERSION)
+                    .path(AVAILABILITY_PATH)
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                    .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
+                          new GenericType<CronofyResponse<AvailabilityResponse>>() {
+                          });
+        } catch (final NotAuthorizedException ignore) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        } catch (final ClientErrorException ignore) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+            return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
     //endregion

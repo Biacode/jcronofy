@@ -56,6 +56,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
 
     private static final String USER_PATH = "userinfo";
 
+    private static final String AVAILABILITY_PATH = "availability";
+
     private static final String EVENTS = "events";
     //endregion
 
@@ -152,8 +154,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path("token")).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                new GenericType<CronofyResponse<GetAccessTokenResponse>>() {
-                })).andReturn(expectedResponse);
+                            new GenericType<CronofyResponse<GetAccessTokenResponse>>() {
+                            })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<GetAccessTokenResponse> result = cronofyClient.getAccessToken(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -218,8 +220,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path("token")).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                new GenericType<CronofyResponse<UpdateAccessTokenResponse>>() {
-                })).andReturn(expectedResponse);
+                            new GenericType<CronofyResponse<UpdateAccessTokenResponse>>() {
+                            })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<UpdateAccessTokenResponse> result = cronofyClient.updateAccessToken(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -1498,8 +1500,8 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                new GenericType<CronofyResponse<CreateNotificationChannelResponse>>() {
-                })).andReturn(expectedResponse);
+                            new GenericType<CronofyResponse<CreateNotificationChannelResponse>>() {
+                            })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<CreateNotificationChannelResponse> result = cronofyClient.createNotificationChannel(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -1930,6 +1932,92 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         verifyAll();
     }
     //endregion
+
+    //region availabiltiy
+
+    /**
+     * With invalid arguments
+     */
+    @Test
+    public void testAvailabilityScenario1() {
+        resetAll();
+        // test data
+        // expectations
+        replayAll();
+        try {
+            cronofyClient.userInfo(null);
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        try {
+            cronofyClient.availability(new AvailabilityRequest());
+            fail();
+        } catch (final IllegalArgumentException ignore) {
+        }
+        verifyAll();
+    }
+
+    /**
+     * General case
+     */
+    @Test
+    public void testAvailabilityScenario2() {
+        resetAll();
+        // test data
+        final AvailabilityRequest request = getHelper().getAvailabilityRequest();
+        final CronofyResponse<AvailabilityResponse> expectedResponse = new CronofyResponse<>(
+                new AvailabilityResponse(Collections.singletonList(getHelper().buildAvailablePeriodModel()))
+        );
+        // expectations
+        expect(client.target(BASE_PATH)).andReturn(webTarget);
+        expect(webTarget.path(API_VERSION)).andReturn(webTarget);
+        expect(webTarget.path(AVAILABILITY_PATH)).andReturn(webTarget);
+        expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
+        expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
+        expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
+                            new GenericType<CronofyResponse<AvailabilityResponse>>() {
+                            })).andReturn(expectedResponse);
+        replayAll();
+        final CronofyResponse<AvailabilityResponse> result = cronofyClient.availability(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When not authorized exception has been thrown
+     */
+    @Test
+    public void testAvailabilityScenario3() {
+        resetAll();
+        // test data
+        final AvailabilityRequest request = getHelper().getAvailabilityRequest();
+        final CronofyResponse<AvailabilityResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.NOT_AUTHORIZED
+        );
+        // expectations
+        expect(client.target(BASE_PATH)).andThrow(new NotAuthorizedException(new CronofyResponse<>()));
+        replayAll();
+        final CronofyResponse<AvailabilityResponse> result = cronofyClient.availability(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
+
+    /**
+     * When client error exception has been thrown
+     */
+    @Test
+    public void testAvailabilityScenario4() {
+        resetAll();
+        // test data
+        final AvailabilityRequest request = getHelper().getAvailabilityRequest();
+        final CronofyResponse<AvailabilityResponse> expectedResponse = new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
+        // expectations
+        expect(client.target(BASE_PATH)).andThrow(new ClientErrorException(Response.Status.CONFLICT));
+        replayAll();
+        final CronofyResponse<AvailabilityResponse> result = cronofyClient.availability(request);
+        getHelper().assertResultResponse(expectedResponse, result);
+        verifyAll();
+    }
 
     //endregion
 

@@ -9,28 +9,24 @@ import java.io.Serializable;
 
 /**
  * User: Syuzanna Eprikyan
- * Date: 1/15/18
- * Time: 3:25 PM
+ * Date: 1/12/18
+ * Time: 5:37 PM
  */
-public class UserModel implements Serializable {
-    private static final long serialVersionUID = -8027890123766451125L;
+public class RequiredDurationModel implements Serializable {
+    private static final long serialVersionUID = 317389052507966285L;
 
     //region Properties
-    @JsonProperty("sub")
-    private String sub;
-
-    @JsonProperty("cronofy.type")
-    private String cronofyType;
+    @JsonProperty("minutes")
+    private int minutes;
     //endregion
 
     //region Constructors
-    public UserModel() {
+    public RequiredDurationModel() {
         // default constructor
     }
 
-    public UserModel(final String sub, final String cronofyType) {
-        this.sub = sub;
-        this.cronofyType = cronofyType;
+    public RequiredDurationModel(final int minutes) {
+        this.minutes = minutes;
     }
     //endregion
 
@@ -40,21 +36,19 @@ public class UserModel implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof UserModel)) {
+        if (!(o instanceof RequiredDurationModel)) {
             return false;
         }
-        final UserModel userModel = (UserModel) o;
+        final RequiredDurationModel that = (RequiredDurationModel) o;
         return new EqualsBuilder()
-                .append(sub, userModel.sub)
-                .append(cronofyType, userModel.cronofyType)
+                .append(minutes, that.minutes)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
-                .append(sub)
-                .append(cronofyType)
+                .append(minutes)
                 .toHashCode();
     }
 
@@ -62,27 +56,18 @@ public class UserModel implements Serializable {
     public String toString() {
         return new ToStringBuilder(this)
                 .appendSuper(super.toString())
-                .append("sub", sub)
-                .append("cronofyType", cronofyType)
+                .append("minutes", minutes)
                 .toString();
     }
     //endregion
 
     //region Properties getters and setters
-    public String getSub() {
-        return sub;
+    public int getMinutes() {
+        return minutes;
     }
 
-    public void setSub(final String sub) {
-        this.sub = sub;
-    }
-
-    public String getCronofyType() {
-        return cronofyType;
-    }
-
-    public void setCronofyType(final String cronofyType) {
-        this.cronofyType = cronofyType;
+    public void setMinutes(final int minutes) {
+        this.minutes = minutes;
     }
     //endregion
 }

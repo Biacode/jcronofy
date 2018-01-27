@@ -271,6 +271,20 @@ public final class CronofyUnitTestHelper {
         return new UserInfoRequest(UUID.randomUUID().toString());
     }
 
+    public AvailabilityRequest getAvailabilityRequest() {
+        return new AvailabilityRequest(UUID.randomUUID().toString(), Collections.singletonList(buildParticipantModel()));
+    }
+
+    public ParticipantModel buildParticipantModel() {
+        return new ParticipantModel(Collections.singletonList(buildMemberModel()), "all");
+    }
+
+    public MemberModel buildMemberModel() {
+        return new MemberModel(UUID.randomUUID().toString());
+    }
+
+    public AvailablePeriodModel buildAvailablePeriodModel() { return new AvailablePeriodModel(new Date().toString(), new Date().toString(), Collections.singletonList(buildParticipantModel()));}
+
     public ProfileInformationRequest getProfileInformationRequest() {
         return new ProfileInformationRequest(UUID.randomUUID().toString());
     }
