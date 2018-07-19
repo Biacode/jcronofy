@@ -13,6 +13,7 @@ import java.io.Serializable;
  * Date: 10/4/16
  * Time: 8:04 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ChannelModel implements Serializable {
     private static final long serialVersionUID = 3418604770585240554L;
 
