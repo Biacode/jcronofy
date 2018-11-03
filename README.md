@@ -74,9 +74,9 @@ public class MainApplication {
         final CronofyResponse<ReadEventsResponse> eventsResult = cronofyClient.readEvents(new ReadEventsRequest("your access token here", "Etc/UTC"));
         // If an error occur
         if (eventsResult.hasError()) {
-            System.out.println(eventsResult.getError().toString());
+            System.out.println(eventsResult.getError());
         } else {
-            System.out.println(eventsResult.getResponse().toString());
+            System.out.println(eventsResult.getResponse());
         }
     }
 }
