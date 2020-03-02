@@ -4,9 +4,45 @@ import org.apache.commons.lang3.StringUtils;
 import org.biacode.jcronofy.api.client.AbstractCronofyClient;
 import org.biacode.jcronofy.api.client.CronofyClient;
 import org.biacode.jcronofy.api.client.exception.UnknownStatusCodeException;
-import org.biacode.jcronofy.api.model.common.*;
-import org.biacode.jcronofy.api.model.request.*;
-import org.biacode.jcronofy.api.model.response.*;
+import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
+import org.biacode.jcronofy.api.model.common.AbstractCronofyRequest;
+import org.biacode.jcronofy.api.model.common.AbstractCronofyResponse;
+import org.biacode.jcronofy.api.model.common.CronofyResponse;
+import org.biacode.jcronofy.api.model.common.ErrorTypeModel;
+import org.biacode.jcronofy.api.model.request.AccountInfoRequest;
+import org.biacode.jcronofy.api.model.request.AvailabilityRequest;
+import org.biacode.jcronofy.api.model.request.BulkDeleteEventsRequest;
+import org.biacode.jcronofy.api.model.request.CloseNotificationChannelRequest;
+import org.biacode.jcronofy.api.model.request.CreateCalendarRequest;
+import org.biacode.jcronofy.api.model.request.CreateNotificationChannelRequest;
+import org.biacode.jcronofy.api.model.request.CreateOrUpdateEventRequest;
+import org.biacode.jcronofy.api.model.request.DeleteEventRequest;
+import org.biacode.jcronofy.api.model.request.FreeBusyRequest;
+import org.biacode.jcronofy.api.model.request.GetAccessTokenRequest;
+import org.biacode.jcronofy.api.model.request.ListCalendarsRequest;
+import org.biacode.jcronofy.api.model.request.ListNotificationChannelsRequest;
+import org.biacode.jcronofy.api.model.request.ProfileInformationRequest;
+import org.biacode.jcronofy.api.model.request.ReadEventsRequest;
+import org.biacode.jcronofy.api.model.request.RevokeAccessTokenRequest;
+import org.biacode.jcronofy.api.model.request.UpdateAccessTokenRequest;
+import org.biacode.jcronofy.api.model.request.UserInfoRequest;
+import org.biacode.jcronofy.api.model.response.AccountInfoResponse;
+import org.biacode.jcronofy.api.model.response.AvailabilityResponse;
+import org.biacode.jcronofy.api.model.response.BulkDeleteEventsResponse;
+import org.biacode.jcronofy.api.model.response.CloseNotificationChannelResponse;
+import org.biacode.jcronofy.api.model.response.CreateCalendarResponse;
+import org.biacode.jcronofy.api.model.response.CreateNotificationChannelResponse;
+import org.biacode.jcronofy.api.model.response.CreateOrUpdateEventResponse;
+import org.biacode.jcronofy.api.model.response.DeleteEventResponse;
+import org.biacode.jcronofy.api.model.response.FreeBusyResponse;
+import org.biacode.jcronofy.api.model.response.GetAccessTokenResponse;
+import org.biacode.jcronofy.api.model.response.ListCalendarsResponse;
+import org.biacode.jcronofy.api.model.response.ListNotificationChannelsResponse;
+import org.biacode.jcronofy.api.model.response.ProfileInformationResponse;
+import org.biacode.jcronofy.api.model.response.ReadEventsResponse;
+import org.biacode.jcronofy.api.model.response.RevokeAccessTokenResponse;
+import org.biacode.jcronofy.api.model.response.UpdateAccessTokenResponse;
+import org.biacode.jcronofy.api.model.response.UserInfoResponse;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
@@ -35,7 +71,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     private static final Logger LOGGER = LoggerFactory.getLogger(CronofyClientImpl.class);
 
     //region Constants
-    private static final String BASE_PATH = "https://api.cronofy.com";
+    private static final String DEFAULT_BASE_PATH = "https://api.cronofy.com";
 
     private static final String AUTH_HEADER_KEY = "Authorization";
 
@@ -69,6 +105,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     private static final int END_DATE_DAY_OFFSET = 1;
 
+    private final String BASE_PATH;
+
     //region Exception messages
     private static final String UNKNOWN_STATUS_CODE_EXCEPTION_MSG = "Got an unknown status code - {} while processing request - {}";
 
@@ -85,8 +123,13 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     //region Constructors
     public CronofyClientImpl(final Client client) {
+        this(client, DEFAULT_BASE_PATH);
+    }
+
+    public CronofyClientImpl(final Client client, final String endpoint) {
         super(client);
         LOGGER.debug("Initializing cronofy client");
+        BASE_PATH = endpoint;
     }
     //endregion
 
@@ -467,8 +510,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .request(MediaType.APPLICATION_JSON_TYPE)
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                          new GenericType<CronofyResponse<AvailabilityResponse>>() {
-                          });
+                            new GenericType<CronofyResponse<AvailabilityResponse>>() {
+                            });
         } catch (final NotAuthorizedException ignore) {
             LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
