@@ -105,7 +105,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
 
     private static final int END_DATE_DAY_OFFSET = 1;
 
-    private final String BASE_PATH;
+    private final String basePath;
 
     //region Exception messages
     private static final String UNKNOWN_STATUS_CODE_EXCEPTION_MSG = "Got an unknown status code - {} while processing request - {}";
@@ -129,7 +129,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     public CronofyClientImpl(final Client client, final String endpoint) {
         super(client);
         LOGGER.debug("Initializing cronofy client");
-        BASE_PATH = endpoint;
+        basePath = endpoint;
     }
     //endregion
 
@@ -139,7 +139,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(OAUTH_PATH)
                     .path(TOKEN_PAH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -158,7 +158,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(OAUTH_PATH)
                     .path(TOKEN_PAH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -178,7 +178,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         final CronofyResponse<RevokeAccessTokenResponse> response = new CronofyResponse<>();
         final Response result = getClient()
-                .target(BASE_PATH)
+                .target(basePath)
                 .path(OAUTH_PATH)
                 .path(TOKEN_PAH)
                 .path(REVOKE)
@@ -204,7 +204,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(CALENDARS_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -225,7 +225,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         final CronofyResponse<CreateCalendarResponse> response = new CronofyResponse<>();
         final Response result = getClient()
-                .target(BASE_PATH)
+                .target(basePath)
                 .path(API_VERSION)
                 .path(CALENDARS_PATH)
                 .request(MediaType.APPLICATION_JSON_TYPE)
@@ -241,7 +241,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             final CronofyResponse<ReadEventsResponse> result = getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(EVENTS_PATH)
                     .queryParam("from", getQueryParamFromDate(request.getFrom(), START_DATE_DAY_OFFSET))
@@ -295,7 +295,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path("free_busy")
                     .queryParam("from", getQueryParamFromDate(request.getFrom(), START_DATE_DAY_OFFSET))
@@ -326,7 +326,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         final CronofyResponse<CreateOrUpdateEventResponse> response = new CronofyResponse<>();
         final Response result = getClient()
-                .target(BASE_PATH)
+                .target(basePath)
                 .path(API_VERSION)
                 .path(CALENDARS_PATH)
                 .path(request.getCalendarId())
@@ -345,7 +345,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         final CronofyResponse<DeleteEventResponse> response = new CronofyResponse<>();
         final Response result = getClient()
-                .target(BASE_PATH)
+                .target(basePath)
                 .path(API_VERSION)
                 .path(CALENDARS_PATH)
                 .path(request.getCalendarId())
@@ -363,7 +363,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         final CronofyResponse<BulkDeleteEventsResponse> response = new CronofyResponse<>();
         final Response result = getClient()
-                .target(BASE_PATH)
+                .target(basePath)
                 .path(API_VERSION)
                 .path(EVENTS_PATH)
                 .queryParam("delete_all", request.getDeleteAll())
@@ -380,7 +380,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(CHANNELS_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -403,7 +403,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(CHANNELS_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -423,7 +423,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         final CronofyResponse<CloseNotificationChannelResponse> response = new CronofyResponse<>();
 
         final Response result = getClient()
-                .target(BASE_PATH)
+                .target(basePath)
                 .path(API_VERSION)
                 .path(CHANNELS_PATH)
                 .path(request.getChannelId())
@@ -450,7 +450,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(USER_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -468,7 +468,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(ACCOUNT_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -486,7 +486,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(PROFILES_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
@@ -504,7 +504,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         assertCronofyRequest(request);
         try {
             return getClient()
-                    .target(BASE_PATH)
+                    .target(basePath)
                     .path(API_VERSION)
                     .path(AVAILABILITY_PATH)
                     .request(MediaType.APPLICATION_JSON_TYPE)
