@@ -126,10 +126,10 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         this(client, DEFAULT_BASE_PATH);
     }
 
-    public CronofyClientImpl(final Client client, final String endpoint) {
+    public CronofyClientImpl(final Client client, final String basePath) {
         super(client);
         LOGGER.debug("Initializing cronofy client");
-        basePath = endpoint;
+        this.basePath = basePath;
     }
     //endregion
 

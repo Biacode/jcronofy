@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.biacode.jcronofy</groupId>
+    <groupId>com.qudini</groupId>
     <artifactId>jcronofy</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
     <name>Cronofy API Client</name>
     <description>The cronofy API client</description>
-    <url>https://github.com/Biacode/jcronofy</url>
+    <url>https://github.com/qudini/jcronofy</url>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -24,14 +24,20 @@
             <organizationUrl>http://www.biacode.com</organizationUrl>
         </developer>
     </developers>
+    <distributionManagement>
+        <repository>
+            <id>bintray-qudini-jcronofy</id>
+            <name>qudini-jcronofy</name>
+            <url>https://api.bintray.com/maven/qudini/jcronofy/jcronofy/;publish=1</url>
+        </repository>
+    </distributionManagement>
     <scm>
-        <connection>scm:git:git@github.com:Biacode/jcronofy.git</connection>
-        <developerConnection>scm:git:ssh://github.com:Biacode/jcronofy.git</developerConnection>
-        <url>https://github.com/Biacode/jcronofy/tree/master</url>
+        <developerConnection>scm:git:git@github.com:qudini/jcronofy.git</developerConnection>
+        <connection>scm:git:git@github.com:qudini/jcronofy.git</connection>
     </scm>
 
     <properties>
-        <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <source.jdk>1.8</source.jdk>

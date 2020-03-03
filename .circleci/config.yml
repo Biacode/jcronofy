@@ -1,0 +1,42 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-stretch
+    steps:
+      - checkout
+      - run: find . -name pom.xml -exec 'md5sum' {} \; | sort > pom.checksum
+      - restore_cache:
+          key: pom.checksum
+      - run: mvn -T 4 de.qaware.maven:go-offline-maven-plugin:resolve-dependencies
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: pom.checksum
+      - run: mvn -T 4 clean verify
+  release:
+    docker:
+      - image: circleci/openjdk:8-stretch
+    steps:
+      - checkout
+      - run: find . -name pom.xml -exec 'md5sum' {} \; | sort > pom.checksum
+      - restore_cache:
+          key: pom.checksum
+      - run: mvn -T 4 build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.${CIRCLE_BUILD_NUM}.0 versions:commit
+      - run: mvn -T 4 validate
+      - run: git tag "release/$(cat target/build-info/version)"
+      - run: git push origin "release/$(cat target/build-info/version)"
+      - run: mvn -T 4 deploy -s .circleci/m2settings.xml
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build: {}
+      - release:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master

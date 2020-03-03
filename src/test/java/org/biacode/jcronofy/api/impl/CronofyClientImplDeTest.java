@@ -75,9 +75,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
- * User: Arthur Asatryan
- * Date: 10/6/16
- * Time: 11:10 AM
+ * User: Chris Peel
+ * Date: 03/03/2020
+ * Time: 14:56
+ * -Duplicated from Arthur's test class
  */
 public class CronofyClientImplDeTest extends AbstractCronofyUniTest {
 
@@ -196,8 +197,8 @@ public class CronofyClientImplDeTest extends AbstractCronofyUniTest {
         expect(webTarget.path("token")).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                            new GenericType<CronofyResponse<GetAccessTokenResponse>>() {
-                            })).andReturn(expectedResponse);
+                new GenericType<CronofyResponse<GetAccessTokenResponse>>() {
+                })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<GetAccessTokenResponse> result = cronofyClient.getAccessToken(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -262,8 +263,8 @@ public class CronofyClientImplDeTest extends AbstractCronofyUniTest {
         expect(webTarget.path("token")).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                            new GenericType<CronofyResponse<UpdateAccessTokenResponse>>() {
-                            })).andReturn(expectedResponse);
+                new GenericType<CronofyResponse<UpdateAccessTokenResponse>>() {
+                })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<UpdateAccessTokenResponse> result = cronofyClient.updateAccessToken(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -1542,8 +1543,8 @@ public class CronofyClientImplDeTest extends AbstractCronofyUniTest {
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                            new GenericType<CronofyResponse<CreateNotificationChannelResponse>>() {
-                            })).andReturn(expectedResponse);
+                new GenericType<CronofyResponse<CreateNotificationChannelResponse>>() {
+                })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<CreateNotificationChannelResponse> result = cronofyClient.createNotificationChannel(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -2017,8 +2018,8 @@ public class CronofyClientImplDeTest extends AbstractCronofyUniTest {
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
         expect(builder.post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
-                            new GenericType<CronofyResponse<AvailabilityResponse>>() {
-                            })).andReturn(expectedResponse);
+                new GenericType<CronofyResponse<AvailabilityResponse>>() {
+                })).andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<AvailabilityResponse> result = cronofyClient.availability(request);
         getHelper().assertResultResponse(expectedResponse, result);
