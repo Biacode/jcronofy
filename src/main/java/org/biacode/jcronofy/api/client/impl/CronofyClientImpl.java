@@ -4,45 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.biacode.jcronofy.api.client.AbstractCronofyClient;
 import org.biacode.jcronofy.api.client.CronofyClient;
 import org.biacode.jcronofy.api.client.exception.UnknownStatusCodeException;
-import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
-import org.biacode.jcronofy.api.model.common.AbstractCronofyRequest;
-import org.biacode.jcronofy.api.model.common.AbstractCronofyResponse;
-import org.biacode.jcronofy.api.model.common.CronofyResponse;
-import org.biacode.jcronofy.api.model.common.ErrorTypeModel;
-import org.biacode.jcronofy.api.model.request.AccountInfoRequest;
-import org.biacode.jcronofy.api.model.request.AvailabilityRequest;
-import org.biacode.jcronofy.api.model.request.BulkDeleteEventsRequest;
-import org.biacode.jcronofy.api.model.request.CloseNotificationChannelRequest;
-import org.biacode.jcronofy.api.model.request.CreateCalendarRequest;
-import org.biacode.jcronofy.api.model.request.CreateNotificationChannelRequest;
-import org.biacode.jcronofy.api.model.request.CreateOrUpdateEventRequest;
-import org.biacode.jcronofy.api.model.request.DeleteEventRequest;
-import org.biacode.jcronofy.api.model.request.FreeBusyRequest;
-import org.biacode.jcronofy.api.model.request.GetAccessTokenRequest;
-import org.biacode.jcronofy.api.model.request.ListCalendarsRequest;
-import org.biacode.jcronofy.api.model.request.ListNotificationChannelsRequest;
-import org.biacode.jcronofy.api.model.request.ProfileInformationRequest;
-import org.biacode.jcronofy.api.model.request.ReadEventsRequest;
-import org.biacode.jcronofy.api.model.request.RevokeAccessTokenRequest;
-import org.biacode.jcronofy.api.model.request.UpdateAccessTokenRequest;
-import org.biacode.jcronofy.api.model.request.UserInfoRequest;
-import org.biacode.jcronofy.api.model.response.AccountInfoResponse;
-import org.biacode.jcronofy.api.model.response.AvailabilityResponse;
-import org.biacode.jcronofy.api.model.response.BulkDeleteEventsResponse;
-import org.biacode.jcronofy.api.model.response.CloseNotificationChannelResponse;
-import org.biacode.jcronofy.api.model.response.CreateCalendarResponse;
-import org.biacode.jcronofy.api.model.response.CreateNotificationChannelResponse;
-import org.biacode.jcronofy.api.model.response.CreateOrUpdateEventResponse;
-import org.biacode.jcronofy.api.model.response.DeleteEventResponse;
-import org.biacode.jcronofy.api.model.response.FreeBusyResponse;
-import org.biacode.jcronofy.api.model.response.GetAccessTokenResponse;
-import org.biacode.jcronofy.api.model.response.ListCalendarsResponse;
-import org.biacode.jcronofy.api.model.response.ListNotificationChannelsResponse;
-import org.biacode.jcronofy.api.model.response.ProfileInformationResponse;
-import org.biacode.jcronofy.api.model.response.ReadEventsResponse;
-import org.biacode.jcronofy.api.model.response.RevokeAccessTokenResponse;
-import org.biacode.jcronofy.api.model.response.UpdateAccessTokenResponse;
-import org.biacode.jcronofy.api.model.response.UserInfoResponse;
+import org.biacode.jcronofy.api.model.common.*;
+import org.biacode.jcronofy.api.model.request.*;
+import org.biacode.jcronofy.api.model.response.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
@@ -167,8 +131,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                             new GenericType<CronofyResponse<UpdateAccessTokenResponse>>() {
                             }
                     );
-        } catch (final BadRequestException ignore) {
-            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ignore, request);
+        } catch (final BadRequestException ex) {
+            LOGGER.warn(BAD_REQUEST_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.BAD_REQUEST);
         }
     }
@@ -212,11 +176,11 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<ListCalendarsResponse>>() {
                     });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+        } catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -264,10 +228,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     result.getResponse().getEvents()
             ));
             String nextPage = result.getResponse().getPages().getNextPage();
-            while (true) {
-                if (StringUtils.isBlank(nextPage)) {
-                    break;
-                }
+            while (!StringUtils.isBlank(nextPage)) {
                 final CronofyResponse<ReadEventsResponse> pageResult = getClient()
                         .target(nextPage)
                         .request(MediaType.APPLICATION_JSON_TYPE)
@@ -279,14 +240,14 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 nextPage = pageResult.getResponse().getPages().getNextPage();
             }
             return response;
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ForbiddenException ignore) {
-            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ignore, request);
+        } catch (final ForbiddenException ex) {
+            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+        } catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -309,14 +270,14 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<FreeBusyResponse>>() {
                     });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ForbiddenException ignore) {
-            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ignore, request);
+        } catch (final ForbiddenException ex) {
+            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+        } catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -390,11 +351,11 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                             new GenericType<CronofyResponse<CreateNotificationChannelResponse>>() {
                             }
                     );
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+        } catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -411,8 +372,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<ListNotificationChannelsResponse>>() {
                     });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
         }
     }
@@ -422,7 +383,6 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     public CronofyResponse<CloseNotificationChannelResponse> closeNotificationChannel(final CloseNotificationChannelRequest request) {
         assertCronofyRequest(request);
         final CronofyResponse<CloseNotificationChannelResponse> response = new CronofyResponse<>();
-
         final Response result = getClient()
                 .target(basePath)
                 .path(API_VERSION)
@@ -458,8 +418,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<UserInfoResponse>>() {
                     });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
         }
     }
@@ -476,8 +436,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<AccountInfoResponse>>() {
                     });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
         }
     }
@@ -494,8 +454,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
                     .get(new GenericType<CronofyResponse<ProfileInformationResponse>>() {
                     });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
         }
     }
@@ -513,11 +473,11 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                     .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
                             new GenericType<CronofyResponse<AvailabilityResponse>>() {
                             });
-        } catch (final NotAuthorizedException ignore) {
-            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ignore, request);
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
-        } catch (final ClientErrorException ignore) {
-            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ignore, request);
+        } catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
             return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
         }
     }
@@ -574,7 +534,7 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
         if (calendarIds == null) {
             return new String[0];
         }
-        return calendarIds.toArray(new String[calendarIds.size()]);
+        return calendarIds.toArray(new String[0]);
     }
     //endregion
 }

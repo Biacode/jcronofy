@@ -12,12 +12,12 @@ Maven
 <dependency>
     <groupId>org.biacode.jcronofy</groupId>
     <artifactId>jcronofy</artifactId>
-    <version>1.0.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 Gradle
 ```groovy
-compile 'org.biacode.jcronofy:jcronofy:1.0.0'
+compile 'org.biacode.jcronofy:jcronofy:1.2.0'
 ```
 
 ### Getting started

@@ -115,7 +115,6 @@ public interface CronofyClient {
     CronofyResponse<CloseNotificationChannelResponse> closeNotificationChannel(final CloseNotificationChannelRequest request);
 
     /**
-     *
      * @param request the request
      * @return the cronofy response
      */
@@ -138,7 +137,6 @@ public interface CronofyClient {
     CronofyResponse<ProfileInformationResponse> profileInfo(final ProfileInformationRequest request);
 
     /**
-     *
      * @param request the request
      * @return the cronofy response
      */

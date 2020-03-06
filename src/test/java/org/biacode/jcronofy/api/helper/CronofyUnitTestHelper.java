@@ -283,7 +283,9 @@ public final class CronofyUnitTestHelper {
         return new MemberModel(UUID.randomUUID().toString());
     }
 
-    public AvailablePeriodModel buildAvailablePeriodModel() { return new AvailablePeriodModel(new Date().toString(), new Date().toString(), Collections.singletonList(buildParticipantModel()));}
+    public AvailablePeriodModel buildAvailablePeriodModel() {
+        return new AvailablePeriodModel(new Date().toString(), new Date().toString(), Collections.singletonList(buildParticipantModel()));
+    }
 
     public ProfileInformationRequest getProfileInformationRequest() {
         return new ProfileInformationRequest(UUID.randomUUID().toString());
