@@ -19,6 +19,17 @@ Gradle
 ```groovy
 compile 'org.biacode.jcronofy:jcronofy:1.2.0'
 ```
+Snapshot repository
+```xml
+<repositories>
+   <repository>
+     <id>snapshots-repo</id>
+     <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+     <releases><enabled>false</enabled></releases>
+     <snapshots><enabled>true</enabled></snapshots>
+   </repository>
+</repositories>
+```
 
 ### Getting started
 
