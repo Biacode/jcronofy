@@ -13,6 +13,7 @@ import java.io.Serializable;
  * Date: 10/5/16
  * Time: 5:25 PM
  */
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OptionModel implements Serializable {
     private static final long serialVersionUID = 6026409532629893278L;

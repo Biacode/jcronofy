@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  * Date: 1/12/18
  * Time: 5:37 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequiredDurationModel implements Serializable {
     private static final long serialVersionUID = 317389052507966285L;
 

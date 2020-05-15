@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Date: 10/7/16
  * Time: 9:20 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum TimeZoneIdModel {
     @JsonProperty("Etc/UTC")
     UTC("Etc/UTC");

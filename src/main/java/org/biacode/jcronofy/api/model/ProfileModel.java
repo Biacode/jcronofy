@@ -13,6 +13,7 @@ import java.io.Serializable;
  * Date: 10/4/16
  * Time: 9:38 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileModel implements Serializable {
     private static final long serialVersionUID = 5421215084583209065L;
 
