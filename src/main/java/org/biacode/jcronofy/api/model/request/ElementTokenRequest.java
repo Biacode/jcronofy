@@ -2,9 +2,8 @@ package org.biacode.jcronofy.api.model.request;
 
 import java.util.List;
 
-import javax.ws.rs.QueryParam;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -20,16 +19,16 @@ import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequ
 public class ElementTokenRequest extends AbstractAccessTokenAwareCronofyRequest {
 
     // region Properties
-    @QueryParam("version")
+    @JsonProperty("version")
     private String version = "1";
 
-    @QueryParam("permissions")
+    @JsonProperty("permissions")
     private List<String> permissions;
 
-    @QueryParam("subs")
+    @JsonProperty("subs")
     private List<String> subs;
 
-    @QueryParam("origin")
+    @JsonProperty("origin")
     private String origin;
     // endregion
 
