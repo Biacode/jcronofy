@@ -22,6 +22,9 @@ public class ElementTokenModel implements Serializable {
     @JsonProperty("permissions")
     private List<String> permissions;
 
+    @JsonProperty("subs")
+    private List<String> subs;
+
     @JsonProperty("origin")
     private String origin;
 
@@ -36,8 +39,9 @@ public class ElementTokenModel implements Serializable {
     public ElementTokenModel() {
     }
 
-    public ElementTokenModel(final List<String> permissions, final String origin, final String token, final Integer expiresIn) {
+    public ElementTokenModel(final List<String> permissions, final List<String> subs, final String origin, final String token, final Integer expiresIn) {
         this.permissions = permissions;
+        this.subs = subs;
         this.origin = origin;
         this.token = token;
     }
@@ -55,6 +59,7 @@ public class ElementTokenModel implements Serializable {
         final ElementTokenModel that = (ElementTokenModel) o;
         return new EqualsBuilder()
                 .append(permissions, that.permissions)
+                .append(subs, that.subs)
                 .append(origin, that.origin)
                 .append(token, that.token)
                 .append(expiresIn, that.expiresIn)
@@ -65,6 +70,7 @@ public class ElementTokenModel implements Serializable {
     public int hashCode() {
         return new HashCodeBuilder()
                 .append(permissions)
+                .append(subs)
                 .append(origin)
                 .append(token)
                 .append(expiresIn)
@@ -76,6 +82,7 @@ public class ElementTokenModel implements Serializable {
         return new ToStringBuilder(this)
                 .appendSuper(super.toString())
                 .append("permissions", permissions)
+                .append("subs", subs)
                 .append("origin", origin)
                 .append("token", token)
                 .append("expiresIn", expiresIn)
@@ -90,6 +97,14 @@ public class ElementTokenModel implements Serializable {
 
     public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
+    }
+
+    public List<String> getSubs() {
+        return subs;
+    }
+
+    public void setSubs(List<String> subs) {
+        this.subs = subs;
     }
 
     public String getOrigin() {
