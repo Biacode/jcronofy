@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -10,8 +11,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * User: Don Holly Date: 6/2/2020 Time: 11:23 PM
+ * User: Don Holly 
+ * Date: 6/2/2020 
+ * Time: 11:23 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ElementTokenModel implements Serializable {
 
     // region Properties

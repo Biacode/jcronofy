@@ -8,7 +8,9 @@ import org.biacode.jcronofy.api.model.ElementTokenModel;
 import org.biacode.jcronofy.api.model.common.AbstractCronofyResponse;
 
 /**
- * User: Don Holly Date: 6/2/20 Time: 11:23 PM
+ * User: Don Holly 
+ * Date: 6/2/20 
+ * Time: 11:23 PM
  */
 public class ElementTokenResponse extends AbstractCronofyResponse {
 
