@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Date: 10/4/16
  * Time: 6:17 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum EventStatusModel {
     @JsonProperty("tentative")
     TENTATIVE("tentative"),

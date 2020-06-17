@@ -1,5 +1,7 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,7 @@ import java.io.Serializable;
  * Date: 1/12/18
  * Time: 4:45 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AvailablityModel implements Serializable {
 
     //region Properties

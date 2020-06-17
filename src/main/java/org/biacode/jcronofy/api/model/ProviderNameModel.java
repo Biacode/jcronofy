@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Date: 10/4/16
  * Time: 4:37 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public enum ProviderNameModel {
     @JsonProperty("apple")
     APPLE("apple"),

@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -14,6 +15,7 @@ import java.util.Date;
  * Date: 10/4/16
  * Time: 7:59 PM
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PushNotificationModel implements Serializable {
     private static final long serialVersionUID = 1150678866702190273L;
 
