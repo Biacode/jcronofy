@@ -45,7 +45,7 @@
         <!--Testing frameworks-->
         <jersey.client.version>2.23.2</jersey.client.version>
         <easymock.version>3.4</easymock.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <maven.surfire.version>2.19.1</maven.surfire.version>
         <!-- Sonar properties -->
         <sonar.language>java</sonar.language>
