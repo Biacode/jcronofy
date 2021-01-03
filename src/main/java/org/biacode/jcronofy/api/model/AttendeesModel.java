@@ -32,6 +32,11 @@ public class AttendeesModel implements Serializable {
     public AttendeesModel() {
     }
 
+    public AttendeesModel(String email, String displayName) {
+        this.email = email;
+        this.displayName = displayName;
+    }
+
     public AttendeesModel(final String email,
                           final String displayName,
                           final ParticipationStatusModel status) {
