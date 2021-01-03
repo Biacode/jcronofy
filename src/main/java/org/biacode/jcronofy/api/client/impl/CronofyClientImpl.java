@@ -12,10 +12,7 @@ import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.ClientErrorException;
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
@@ -83,6 +80,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     private static final String BAD_REQUEST_EXCEPTION_MSG = "Bad request exception - {} occur while processing request - {}";
 
     private static final String FORBIDDEN_EXCEPTION_MSG = "Forbidden exception - {} occur while processing request - {}";
+
+    private static final String NOT_FOUND_EXCEPTION_MSG = "Not found exception - {} occur while processing request - {}";
     //endregion
 
     //endregion
@@ -307,19 +306,32 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     @Override
     public CronofyResponse<DeleteEventResponse> deleteEvent(final DeleteEventRequest request) {
         assertCronofyRequest(request);
-        final CronofyResponse<DeleteEventResponse> response = new CronofyResponse<>();
-        final Response result = getClient()
-                .target(basePath)
-                .path(API_VERSION)
-                .path(CALENDARS_PATH)
-                .path(request.getCalendarId())
-                .path(EVENTS_PATH)
-                .queryParam("event_id", request.getEventId())
-                .request(MediaType.APPLICATION_JSON_TYPE)
-                .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
-                .delete();
-        processStatusCode(request, response, result.getStatus());
-        return response;
+        try {
+            return getClient()
+                    .target(basePath)
+                    .path(API_VERSION)
+                    .path(CALENDARS_PATH)
+                    .path(request.getCalendarId())
+                    .path(EVENTS_PATH)
+                    .queryParam("event_id", request.getEventId())
+                    .queryParam("include_userinfo", request.getIncludeUserInfo())
+                    .request(MediaType.APPLICATION_JSON_TYPE)
+                    .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
+                    .delete(new GenericType<CronofyResponse<DeleteEventResponse>>() {
+                    });
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        } catch (final ForbiddenException ex) {
+            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
+        } catch (final NotFoundException ex) {
+            LOGGER.warn(NOT_FOUND_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.NOT_FOUND);
+        } catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
+        }
     }
 
     @Override

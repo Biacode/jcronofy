@@ -1,5 +1,6 @@
 package org.biacode.jcronofy.api.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -20,6 +21,9 @@ public class DeleteEventRequest extends AbstractAccessTokenAwareCronofyRequest {
 
     @QueryParam("event_id")
     private String eventId;
+
+    @JsonProperty("include_userinfo")
+    private Boolean includeUserInfo;
     //endregion
 
     //region Constructors
@@ -32,6 +36,17 @@ public class DeleteEventRequest extends AbstractAccessTokenAwareCronofyRequest {
         super(accessToken);
         this.calendarId = calendarId;
         this.eventId = eventId;
+    }
+
+
+    public DeleteEventRequest(final String accessToken,
+            final String calendarId,
+            final String eventId,
+            final Boolean includeUserInfo) {
+        super(accessToken);
+        this.calendarId = calendarId;
+        this.eventId = eventId;
+        this.includeUserInfo = includeUserInfo;
     }
     //endregion
 
@@ -85,6 +100,10 @@ public class DeleteEventRequest extends AbstractAccessTokenAwareCronofyRequest {
 
     public void setCalendarId(final String calendarId) {
         this.calendarId = calendarId;
+    }
+
+    public Boolean getIncludeUserInfo() {
+        return includeUserInfo;
     }
     //endregion
 }
