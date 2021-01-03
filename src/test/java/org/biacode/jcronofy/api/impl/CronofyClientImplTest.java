@@ -1166,9 +1166,11 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(request.getCalendarId())).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("event_id", request.getEventId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_userinfo", request.getIncludeUserInfo())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
-        expect(builder.delete()).andReturn(Response.accepted().build());
+        expect(builder.delete((new GenericType<CronofyResponse<DeleteEventResponse>>() {})))
+                .andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<DeleteEventResponse> result = cronofyClient.deleteEvent(request);
         assertNotNull(result);
@@ -1188,7 +1190,6 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         final CronofyResponse<DeleteEventResponse> expectedResponse = new CronofyResponse<>(
                 ErrorTypeModel.NOT_AUTHORIZED
         );
-        final Response expectedResult = Response.status(401).build();
         // expectations
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
@@ -1196,9 +1197,11 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(request.getCalendarId())).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("event_id", request.getEventId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_userinfo", request.getIncludeUserInfo())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
-        expect(builder.delete()).andReturn(expectedResult);
+        expect(builder.delete((new GenericType<CronofyResponse<DeleteEventResponse>>() {})))
+                .andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<DeleteEventResponse> result = cronofyClient.deleteEvent(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -1216,7 +1219,6 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         final CronofyResponse<DeleteEventResponse> expectedResponse = new CronofyResponse<>(
                 ErrorTypeModel.FORBIDDEN
         );
-        final Response expectedResult = Response.status(403).build();
         // expectations
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
@@ -1224,9 +1226,11 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(request.getCalendarId())).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("event_id", request.getEventId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_userinfo", request.getIncludeUserInfo())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
-        expect(builder.delete()).andReturn(expectedResult);
+        expect(builder.delete((new GenericType<CronofyResponse<DeleteEventResponse>>() {})))
+                .andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<DeleteEventResponse> result = cronofyClient.deleteEvent(request);
         getHelper().assertResultResponse(expectedResponse, result);
@@ -1244,7 +1248,6 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         final CronofyResponse<DeleteEventResponse> expectedResponse = new CronofyResponse<>(
                 ErrorTypeModel.UNPROCESSABLE
         );
-        final Response expectedResult = Response.status(422).build();
         // expectations
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
@@ -1252,24 +1255,29 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(request.getCalendarId())).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("event_id", request.getEventId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_userinfo", request.getIncludeUserInfo())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
-        expect(builder.delete()).andReturn(expectedResult);
+        expect(builder.delete((new GenericType<CronofyResponse<DeleteEventResponse>>() {})))
+                .andReturn(expectedResponse);
         replayAll();
         final CronofyResponse<DeleteEventResponse> result = cronofyClient.deleteEvent(request);
         getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }
 
+
     /**
-     * When got unknown status code
+     * When not found
      */
     @Test
     public void testDeleteEventScenario7() {
         resetAll();
         // test data
         final DeleteEventRequest request = getHelper().getDeleteEventRequest();
-        final Response expectedResult = Response.status(1024).build();
+        final CronofyResponse<DeleteEventResponse> expectedResponse = new CronofyResponse<>(
+                ErrorTypeModel.NOT_FOUND
+        );
         // expectations
         expect(client.target(BASE_PATH)).andReturn(webTarget);
         expect(webTarget.path(API_VERSION)).andReturn(webTarget);
@@ -1277,18 +1285,14 @@ public class CronofyClientImplTest extends AbstractCronofyUniTest {
         expect(webTarget.path(request.getCalendarId())).andReturn(webTarget);
         expect(webTarget.path(EVENTS)).andReturn(webTarget);
         expect(webTarget.queryParam("event_id", request.getEventId())).andReturn(webTarget);
+        expect(webTarget.queryParam("include_userinfo", request.getIncludeUserInfo())).andReturn(webTarget);
         expect(webTarget.request(MediaType.APPLICATION_JSON_TYPE)).andReturn(builder);
         expect(builder.header(AUTH_HEADER_KEY, "Bearer " + request.getAccessToken())).andReturn(builder);
-        expect(builder.delete()).andReturn(expectedResult);
+        expect(builder.delete((new GenericType<CronofyResponse<DeleteEventResponse>>() {})))
+                .andReturn(expectedResponse);
         replayAll();
-        try {
-            cronofyClient.deleteEvent(request);
-            fail("Exception should be thrown");
-        } catch (final UnknownStatusCodeException ignore) {
-            // Expected
-            assertNotNull(ignore);
-            assertEquals(request, ignore.getRequest());
-        }
+        final CronofyResponse<DeleteEventResponse> result = cronofyClient.deleteEvent(request);
+        getHelper().assertResultResponse(expectedResponse, result);
         verifyAll();
     }
     //endregion
