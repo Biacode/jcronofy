@@ -2,13 +2,14 @@ package org.biacode.jcronofy.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.biacode.jcronofy.api.model.converter.FreeBusyDateDeserializer;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * User: Arthur Asatryan
@@ -24,10 +25,12 @@ public class FreeBusyModel implements Serializable {
     private String calendarId;
 
     @JsonProperty("start")
-    private Date start;
+    @JsonDeserialize(using = FreeBusyDateDeserializer.class)
+    private FreeBusyDateModel start;
 
     @JsonProperty("end")
-    private Date end;
+    @JsonDeserialize(using = FreeBusyDateDeserializer.class)
+    private FreeBusyDateModel end;
 
     @JsonProperty("free_busy_status")
     private FreeBusyStatusModel status;
@@ -38,9 +41,9 @@ public class FreeBusyModel implements Serializable {
     }
 
     public FreeBusyModel(final String calendarId,
-                         final Date start,
-                         final Date end,
-                         final FreeBusyStatusModel status) {
+            final FreeBusyDateModel start,
+             final FreeBusyDateModel end,
+            final FreeBusyStatusModel status) {
         this.calendarId = calendarId;
         this.start = ObjectUtils.clone(start);
         this.end = ObjectUtils.clone(end);
@@ -96,20 +99,20 @@ public class FreeBusyModel implements Serializable {
         this.calendarId = calendarId;
     }
 
-    public Date getStart() {
+    public FreeBusyDateModel getStart() {
         return ObjectUtils.clone(start);
     }
 
-    public void setStart(final Date start) {
-        this.start = ObjectUtils.clone(start);
+    public void setStart(final FreeBusyDateModel start) {
+        this.start = start;
     }
 
-    public Date getEnd() {
+    public FreeBusyDateModel getEnd() {
         return ObjectUtils.clone(end);
     }
 
-    public void setEnd(final Date end) {
-        this.end = ObjectUtils.clone(end);
+    public void setEnd(final FreeBusyDateModel end) {
+        this.end = end;
     }
 
     public FreeBusyStatusModel getStatus() {

@@ -107,8 +107,8 @@ public final class CronofyUnitTestHelper {
     public FreeBusyModel buildFreeBusyModel() {
         return new FreeBusyModel(
                 UUID.randomUUID().toString(),
-                new Date(),
-                new Date(),
+                FreeBusyDateModel.of(UUID.randomUUID().toString(), UUID.randomUUID().toString()),
+                FreeBusyDateModel.of(UUID.randomUUID().toString(), UUID.randomUUID().toString()),
                 FreeBusyStatusModel.BUSY
         );
     }
