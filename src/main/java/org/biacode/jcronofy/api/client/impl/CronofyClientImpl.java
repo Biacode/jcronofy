@@ -287,8 +287,8 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
     @Override
     public CronofyResponse<CreateOrUpdateEventResponse> createOrUpdateEvent(final CreateOrUpdateEventRequest request) {
         assertCronofyRequest(request);
-        final CronofyResponse<CreateOrUpdateEventResponse> response = new CronofyResponse<>();
-        final Response result = getClient()
+        try {
+        return getClient()
                 .target(basePath)
                 .path(API_VERSION)
                 .path(CALENDARS_PATH)
@@ -296,10 +296,23 @@ public class CronofyClientImpl extends AbstractCronofyClient implements CronofyC
                 .path(EVENTS_PATH)
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header(AUTH_HEADER_KEY, getAccessTokenFromRequest(request))
-                .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE)
+                .post(Entity.entity(request, MediaType.APPLICATION_JSON_TYPE),
+                        new GenericType<CronofyResponse<CreateOrUpdateEventResponse>>(){}
                 );
-        processStatusCode(request, response, result.getStatus());
-        return response;
+        } catch (final NotAuthorizedException ex) {
+            LOGGER.warn(NOT_AUTHORIZED_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.NOT_AUTHORIZED);
+        } catch (final ForbiddenException ex) {
+            LOGGER.warn(FORBIDDEN_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.FORBIDDEN);
+        }  catch (final NotFoundException ex) {
+            LOGGER.warn(NOT_FOUND_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.NOT_FOUND);
+        }catch (final ClientErrorException ex) {
+            LOGGER.warn(CLIENT_ERROR_EXCEPTION_MSG, ex, request);
+            return new CronofyResponse<>(ErrorTypeModel.UNPROCESSABLE);
+        }
+        // TODO: 1/3/2021 add Notfound exception when
     }
 
     @SuppressWarnings({"squid:MethodCyclomaticComplexity", "squid:S1192"})

@@ -6,10 +6,14 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.biacode.jcronofy.api.model.EventAttendeesModel;
 import org.biacode.jcronofy.api.model.EventLocationModel;
+import org.biacode.jcronofy.api.model.EventReminderModel;
+import org.biacode.jcronofy.api.model.TransparencyModel;
 import org.biacode.jcronofy.api.model.common.AbstractAccessTokenAwareCronofyRequest;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: Arthur Asatryan
@@ -44,6 +48,30 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
 
     @JsonProperty("location")
     private EventLocationModel location;
+
+    @JsonProperty("url")
+    private String url;
+
+    @JsonProperty("transparency")
+    private TransparencyModel transparency;
+
+    @JsonProperty("color")
+    private String color;
+
+    @JsonProperty("reminders")
+    private List<EventReminderModel> reminders;
+
+    @JsonProperty("reminders_create_only")
+    private Boolean remindersCreateOnly;
+
+    @JsonProperty("attendees")
+    private EventAttendeesModel attendees;
+
+    @JsonProperty("event_private")
+    private boolean eventPrivate = false;
+
+    @JsonProperty("include_userinfo")
+    private Boolean includeUserInfo;
     //endregion
 
     //region Constructors
@@ -187,6 +215,66 @@ public class CreateOrUpdateEventRequest extends AbstractAccessTokenAwareCronofyR
 
     public void setLocation(final EventLocationModel location) {
         this.location = location;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public TransparencyModel getTransparency() {
+        return transparency;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public List<EventReminderModel> getReminders() {
+        return reminders;
+    }
+
+    public Boolean getRemindersCreateOnly() {
+        return remindersCreateOnly;
+    }
+
+    public EventAttendeesModel getAttendees() {
+        return attendees;
+    }
+
+    public boolean isEventPrivate() {
+        return eventPrivate;
+    }
+
+    public Boolean getIncludeUserInfo() {
+        return includeUserInfo;
+    }
+
+    public void setTransparency(TransparencyModel transparency) {
+        this.transparency = transparency;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setReminders(List<EventReminderModel> reminders) {
+        this.reminders = reminders;
+    }
+
+    public void setRemindersCreateOnly(Boolean remindersCreateOnly) {
+        this.remindersCreateOnly = remindersCreateOnly;
+    }
+
+    public void setAttendees(EventAttendeesModel attendees) {
+        this.attendees = attendees;
+    }
+
+    public void setEventPrivate(boolean eventPrivate) {
+        this.eventPrivate = eventPrivate;
+    }
+
+    public void setIncludeUserInfo(Boolean includeUserInfo) {
+        this.includeUserInfo = includeUserInfo;
     }
     //endregion
 }
