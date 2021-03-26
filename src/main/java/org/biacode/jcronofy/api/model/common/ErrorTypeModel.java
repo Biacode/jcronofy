@@ -9,6 +9,7 @@ public enum ErrorTypeModel {
     BAD_REQUEST(400),
     NOT_AUTHORIZED(401),
     FORBIDDEN(403),
+    NOT_FOUND(404),
     UNPROCESSABLE(422),
     LOCKED(423);
 
